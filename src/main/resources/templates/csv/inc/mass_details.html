@@ -1,0 +1,27 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title"><i data-bind="{click: massRequest().showDetails, css: massRequest().isDetailsVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Details</h3>
+    </div>
+    <div class="box-body">
+        <div class="row" data-bind="visible: massRequest().isDetailsVisible">
+            <div data-bind="foreach: massRequest().details">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" data-bind="text: name"></label>
+                        <div data-bind="{if: type() != 'select'}">
+                            <input data-parsley-trigger="keyup" class="form-control" data-bind="{value: value,attr: {'name': name,'type': type}}">
+                        </div>
+                        
+                        <div data-bind="{if: type() == 'select'}">
+                            <select class="form-control">
+                                <option>MS</option>
+                                <option>SS</option>
+                        </select>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

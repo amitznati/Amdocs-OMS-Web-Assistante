@@ -1,0 +1,74 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Mass Lines</h3>
+    </div>
+    <div class="box-body">
+        <div data-bind="foreach: {data: massRequest().lines, as: 'line'} ">
+            <div>
+                <button class="btn btn-danger btn-xs" data-bind="click: $root.massRequest().deleteLine"><i class="fa fa-trash"></i></button>
+                <i data-bind="{click: showLine, css: isVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Line number <span data-bind="text: lineNumber"></span> 
+            </div>
+            <div class="row" data-bind="visible: isVisible">
+                <div data-bind="foreach: attributes ">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" data-bind="text: name"></label>
+                            <input data-parsley-trigger="keyup"  class="form-control"  data-bind="{value: value,attr: {'name': name,'type': type}}" >
+                        </div>
+                    </div>
+                </div>
+                <div data-bind="visible: isAttributeListExist">
+                    <div class="col-md-12">
+                        <div class="box-header with-border">
+                                <h3 class="box-title">Attributes List</h3>
+                        </div>
+                        <div data-bind="foreach: {data: attributesList, as: 'comp'} "> 
+                            <div class="row">                                                 
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-danger btn-xs" data-bind="click: line.deleteComponent"><i class="fa fa-trash"></i></button>
+                                        <label class="control-label">Component/ Billing Offer CID</label>
+
+                                        <input class="form-control" data-bind="{value: cid}" >  
+                                    </div>                           
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div data-bind="foreach: {data: comp.attributes, as: 'attribute'} ">
+                                    <div class="row">
+                                        <div class="col-md-offset-1  col-md-3">
+                                            <div class="form-group">
+                                                <button class="btn btn-danger btn-xs" data-bind="click: comp.deleteAttribute"><i class="fa fa-trash"></i></button>
+                                                <label class="control-label" >Attribute Name </label>
+                                                <input class="form-control" data-bind="{value: name}" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" >Attribute Value </label>
+                                                <input class="form-control" data-bind="{value: value,attr: {'type': type}}" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-12">
+                                        <p><i data-bind="{click: comp.addAttribute}" class="fa fa-plus-square" aria-hidden="true"></i>  New Attribute </p> 
+                                    </div>
+                                </div>                                        
+                            </div>
+                        </div>
+                        <div>
+                            <p><i data-bind="{click: addComp}" class="fa fa-plus-square" aria-hidden="true"></i>  New Component </p> 
+                        </div>
+                    </div>                                        
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <p><i data-bind="{click: massRequest().addLine}" class="fa fa-plus-square" aria-hidden="true"></i>  New Line </p> 
+        </div>
+    </div>
+</div>

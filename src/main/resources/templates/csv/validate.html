@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Import CSV File</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="http://parsleyjs.org/src/parsley.css">
+</head>
+<body>
+    <section layout:fragment="header">
+        <h1>
+            Import
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Import CSV file</li>
+        </ol>
+    </section>
+    <div layout:fragment="content">
+        <div class="row"> 
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Import File To Translete</h3>
+                            </div>
+                            <div class="box-body"> 
+                                <form method="POST" enctype="multipart/form-data" action="/validate">
+                                    <div class="form-group">
+                                        <label>CSV File</label>
+                                        <input  id="file" class="form-control" type="file" name="file">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="Load File">
+                                    </div>
+                                </form>                            
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-bind="visible: isFileLoaded">
+            <form id="demo-form" data-parsley-validate="">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div th:replace="/csv/inc/mass_header"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div th:replace="/csv/inc/mass_details"></div>
+                    </div>
+                </div>
+                <!-- Lines section -->
+                <div class="row">
+                    <div class="col-md-12">                 
+                        <div th:replace="/csv/inc/mass_lines"></div>
+                    </div>
+                </div>
+                <!--End Lines Sections -->
+                <div class="row"> 
+                    <div class="col-xs-6">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Export Your File</h3>
+                            </div>
+                            <div class="box-body">                           
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit" data-bind="event: { click: exportFile }" >Save File</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a id="myPath" data-bind="visible: false" href="/dist/js/csv/mass_utils.js"></a>
+   <div layout:fragment="after-scripts">
+    <script type="text/javascript" src="http://parsleyjs.org/dist/parsley.min.js"></script>
+    <script src="/dist/js/csv/mass_utils.js"></script>
+    <script src="/dist/js/csv/mass_models.js"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        var validationFileInput     = /*[[${ValidationFile}]]*/ 'ValidationFile';
+        var inputFile               = /*[[${inputFile}]]*/ 'inputFile';
+
+    /*]]>*/
+    </script>
+    <script type="text/javascript">
+
+        var dateFields = [];
+
+        function ValidationFile(props){
+            var self = this;
+            self.properties = props;
+        }
+
+        function getPropertiesFromLine(line){
+            var props = [];
+            line.forEach(function(attr){
+                if(attr.name && attr.value){
+                    props[attr.name()] = [];
+                    var allprops = attr.value().split(';');
+                    allprops.forEach(function(prop){
+                        var singleProp = prop.split('=');
+                        props[attr.name()][singleProp[0]] = [];
+                        allAttrs = singleProp[1].split('||');
+                        allAttrs.forEach(function(singelAttr){
+                            var pairs = singelAttr.split(':');
+                            if(pairs[1])
+                                props[attr.name()][singleProp[0]][pairs[0]] = pairs[1];
+                            else
+                                props[attr.name()][singleProp[0]] = [pairs[0]];
+                        })
+                    });
+                }
+            });
+            return props;
+        }
+
+
+        function buildValidationFile(validationFile){
+            var header = getPropertiesFromLine(validationFile.header());
+            var details = getPropertiesFromLine(validationFile.details());
+            var lines = getPropertiesFromLine(validationFile.lines()[0].attributes());
+            var allprops = mergeArrays(header,details);
+            allprops = mergeArrays(allprops,lines);
+            var vf = new ValidationFile(allprops);
+
+            return vf;
+        }
+
+        function getDateFromInput(inputDate)
+        {
+            if(!inputDate) return inputDate;
+            var date = inputDate.split('/');
+            if(!date || !date[0] || !date[1] || !date[2]) return inputDate;
+            if(date[0] < 10) date[0] = '0' +date[0];
+            if(date[1] < 10) date[1] = '0' +date[1];
+            console.log(date[2]+'-'+date[1]+'-'+date[0]);
+            return date[2]+'-'+date[1]+'-'+date[0];
+        }
+
+        function addTypeToLine(line,validationFile){
+
+            line.forEach(function(attr){                
+                if(validationFile.properties[attr.name()] && attr)
+                { 
+                    var type = validationFile.properties[attr.name()]['type'];
+                     if(type == 'date')
+                    {
+                        attr.type('text');
+                        dateFields.push(attr.name());
+
+                    }
+                    else if(type == 'CID_LIST')
+                    {
+
+                        attr.type('text');
+                        if(!validationFile.properties[attr.name()]['validation'])
+                            validationFile.properties[attr.name()]['validation'] = [];
+                        validationFile.properties[attr.name()]['validation']['pattern'] = '([0-9]+;?)*';
+                    }
+                    else
+                        attr.type(validationFile.properties[attr.name()]['type'])
+                }
+            })
+        }
+
+        function addTypeToAttributes(massRequest,validationFile)
+        {
+            addTypeToLine(massRequest.header(),validationFile);
+            addTypeToLine(massRequest.details(),validationFile);
+            massRequest.lines().forEach(function(line){
+              //  console.log(line);
+                addTypeToLine(line.attributes(),validationFile);
+            });
+        }
+
+        function addValidation(validationFile){
+
+            for (var name in validationFile.properties){
+                if (validationFile.properties.hasOwnProperty(name)) {
+                    var attr = $("input[name='"+name+"']");
+                    if(attr){
+                        var validationArray = validationFile.properties[name]['validation'];
+                        for(var validationName in validationArray){
+                            if(validationArray.hasOwnProperty(validationName)){
+                                attr.attr('data-parsley-'+validationName, validationArray[validationName]);
+                                
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        function ViewModel() {
+            var self = this;
+            self.validationFile = ko.observable(buildValidationFile(getMassRequestFromText(validationFileInput)));
+            console.log(self.validationFile());
+            var tempMassReq = getMassRequestFromText(inputFile);
+            addTypeToAttributes(tempMassReq,self.validationFile())
+            self.massRequest = ko.observable(tempMassReq);
+
+            self.isFileLoaded = ko.observable(true);
+
+           
+            
+            
+            
+            
+            
+
+            self.exportFile = function(){
+                console.log('exportFile');
+                var rows = self.massRequest().getAllRows();
+
+                let csvContent = "data:text/csv;charset=utf-8,";
+                rows.forEach(function(rowArray){
+                   csvContent += rowArray + '\n'; // add carriage return
+                });               
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "my_data.csv");
+                document.body.appendChild(link); // Required for FF
+
+                link.click(); // This will download the data file named "my_data.csv".
+            };
+
+            // self.openFile = function(data, event) {
+            //     var input = event.target;
+            //     var reader = new FileReader();
+            //     self.massRequest(new MassRequest());
+            //     reader.onload = function(){
+            //         var text = reader.result.trim();
+            //         //console.log(text);
+            //         self.isFileLoaded(true);
+            //         var tempMassReq = getMassRequestFromText(text);
+            //         addTypeToAttributes(tempMassReq,self.validationFile())
+                    
+            //         self.massRequest(tempMassReq);
+
+            //         addValidation(self.validationFile());
+            //         $('#demo-form').parsley().validate();
+                     
+                    
+            //     };
+            //     reader.readAsText(input.files[0]);
+            // };
+        };
+
+        var myViewModel = new ViewModel();
+
+        ko.applyBindings(myViewModel);
+
+        $(document).ready(function(){
+
+            // $('input').on('change',function(){
+            //     $('#demo-form').parsley().validate();
+            // })
+
+            dateFields.forEach(function(name)
+            {
+                $("input[name='"+name+"']").datepicker({
+                  format: "dd/mm/yyyy",
+                });
+            });
+            
+            addValidation(myViewModel.validationFile());
+             $('#demo-form').parsley().validate();
+        });
+
+    </script>
+       
+   </div>
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <title>Import CSV File</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+<body>
+    <section layout:fragment="header">
+        <h1>
+            Import
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Import CSV file</li>
+        </ol>
+    </section>
+    <div layout:fragment="content">
+        <div class="row"> 
+    	    <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Import File To Translete</h3>
+                            </div>
+                            <div class="box-body">                           
+                                <div class="form-group">
+                                    <label>CSV File</label>
+                                    <input id="file" class="form-control" type="file" data-bind="event: { change: openFile }" name="csv-file">
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+        	</div>
+    	</div>
+        <div data-bind="visible: isFileLoaded">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i data-bind="{click: massRequest().showHeader, css: massRequest().isHeaderVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Header</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" data-bind="visible: massRequest().isHeaderVisible">
+                                <div data-bind="foreach: massRequest().header">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" data-bind="text: name"></label>
+                                            <input class="form-control" d data-bind="{type: type, value: value}" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i data-bind="{click: massRequest().showDetails, css: massRequest().isDetailsVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Details</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" data-bind="visible: massRequest().isDetailsVisible">
+                                <div data-bind="foreach: massRequest().details">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" data-bind="text: name"></label>
+                                            <input class="form-control" d data-bind="{type: type, value: value}" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Lines section -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Mass Lines</h3>
+                        </div>
+                        <div class="box-body">
+                            <div data-bind="foreach: {data: massRequest().lines, as: 'line'} ">
+                                <div>
+                                    <button class="btn btn-danger btn-xs" data-bind="click: $root.massRequest().deleteLine"><i class="fa fa-trash"></i></button>
+                                    <i data-bind="{click: showLine, css: isVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Line number <span data-bind="text: lineNumber"></span> 
+                                </div>
+                                <div class="row" data-bind="visible: isVisible">
+                                    <div data-bind="foreach: attributes ">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" data-bind="text: name"></label>
+                                                <input class="form-control" d data-bind="{type: type, value: value}" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-bind="visible: isAttributeListExist">
+                                        <div class="col-md-12">
+                                            <div class="box-header with-border">
+                                                    <h3 class="box-title">Attributes List</h3>
+                                            </div>
+                                            <div data-bind="foreach: {data: attributesList, as: 'comp'} "> 
+                                                <div class="row">                                                 
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-danger btn-xs" data-bind="click: line.deleteComponent"><i class="fa fa-trash"></i></button>
+                                                            <label class="control-label">Component/ Billing Offer CID</label>
+
+                                                            <input class="form-control" d data-bind="{value: cid}" >  
+                                                        </div>                           
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div data-bind="foreach: {data: comp.attributes, as: 'attribute'} ">
+                                                        <div class="row">
+                                                            <div class="col-md-offset-1  col-md-3">
+                                                                <div class="form-group">
+                                                                    <button class="btn btn-danger btn-xs" data-bind="click: comp.deleteAttribute"><i class="fa fa-trash"></i></button>
+                                                                    <label class="control-label" >Attribute Name </label>
+                                                                    <input class="form-control" d data-bind="{value: name}" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label" >Attribute Value </label>
+                                                                    <input class="form-control" d data-bind="{type: type, value: value}" >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-offset-1 col-md-12">
+                                                            <p><i data-bind="{click: comp.addAttribute}" class="fa fa-plus-square" aria-hidden="true"></i>  New Attribute </p> 
+                                                        </div>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p><i data-bind="{click: addComp}" class="fa fa-plus-square" aria-hidden="true"></i>  New Component </p> 
+                                            </div>
+                                        </div>                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div>
+                                <p><i data-bind="{click: massRequest().addLine}" class="fa fa-plus-square" aria-hidden="true"></i>  New Line </p> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Lines Sections -->
+            <div class="row"> 
+                <div class="col-xs-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Export Your File</h3>
+                        </div>
+                        <div class="box-body">                           
+                            <div class="form-group">
+                                <button class="btn btn-success" type="submit" data-bind="event: { click: exportFile }" >Save File</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    	
+    </div>
+
+   <div layout:fragment="after-scripts">
+    <script type="text/javascript">
+          
+        function parsAttributesList(attrList){
+            if(!attrList) return [];
+            var attributesList = [];
+            var componentArr = [attrList];
+            if(attrList.includes(';'))
+                componentArr = attrList.split(';');
+            componentArr.forEach(function(comp){
+                var component  = new Component();
+                var compAttrList = comp.split('||');
+                component.cid(compAttrList[0]);
+                for(j=1;j<compAttrList.length;j++){
+                    var attrAndVal = compAttrList[j].split('=');
+                    var attribute = new Attribute();
+                    attribute.name(attrAndVal[0]);
+                    attribute.value(attrAndVal[1]);
+                    component.attributes.push(attribute);
+                }
+                attributesList.push(component);
+            })
+            return attributesList;
+        }
+
+        function parsToStringAttributesList(attributesList){
+            var attrListString = "";
+            if(!attributesList)
+                return attrListString;
+            attributesList.forEach(function(comp){
+                attrListString += comp.cid() + "||";
+                comp.attributes().forEach(function(attr){
+                    attrListString += attr.name() + "=" + attr.value() + "||";
+                });
+                attrListString = attrListString.substr(0,attrListString.length-2);
+                attrListString += ";";
+            })
+            return attrListString;
+        }
+
+        function getMassRequestFromText(text){
+            var massRequest = new MassRequest();
+            var textAsArray = text.split('\n');
+            massRequest.headerAttributesString(textAsArray[0]);
+            massRequest.detailsAttributesString(textAsArray[2]);
+            massRequest.linesAttributesString(textAsArray[4]);
+            var headerAttrs = textAsArray[0].split(',');
+            var headerValues = textAsArray[1].split(',');
+            var detailsAttrs = textAsArray[2].split(',');
+            var detailsValues = textAsArray[3].split(',');
+            var linesAttrs = textAsArray[4].split(',');
+            var lines = textAsArray.slice(5);
+            for(i =0 ; i<headerAttrs.length;i++){
+                if(headerAttrs[i]){
+                    var attribute = new Attribute(headerAttrs[i],headerValues[i]);
+                    massRequest.header.push(attribute);
+                }
+                
+            };
+            console.log('header parsed');
+
+            for(i =0 ; i<detailsAttrs.length;i++){
+                if(detailsAttrs[i]){
+                    var attribute = new Attribute(detailsAttrs[i],detailsValues[i]);
+                    massRequest.details.push(attribute);
+                }                  
+            };
+            console.log('details parsed');
+
+            lines.forEach(function(line){
+                console.log(line);
+                var lineValues = line.split(',');
+                var attributes = [];
+                var retLine = new Line();
+                for(i =0 ; i<linesAttrs.length;i++){
+                    if(linesAttrs[i] == 'AttributesList'){
+                        retLine.attributesList(parsAttributesList(lineValues[i]));
+                        retLine.isAttributeListExist(true);
+                    }
+                    else if(linesAttrs[i] == 'Request Line Number' || linesAttrs[i] == 'RequestLineNumber'){
+                        retLine.lineNumber(lineValues[i]);
+                        
+                    }
+                    retLine.attributes.push(new Attribute(linesAttrs[i],lineValues[i]));
+                    
+                }
+                massRequest.lines.push(retLine);
+            })
+            console.log('lines parsed');
+
+            return massRequest;
+
+        }
+
+        function Attribute(name,value,type){
+            var self = this;
+            self.name = ko.observable(name);
+            self.value = ko.observable(value);
+            self.type = ko.observable( type || 'text');
+
+        }
+
+        function Component(){
+            var self = this;
+            self.cid = ko.observable();
+            self.attributes = ko.observableArray();
+            self.addAttribute = function(){
+                self.attributes.push(new Attribute());
+            }
+            self.deleteAttribute = function(attr){
+                self.attributes.remove(attr)
+            }
+        }
+
+        function Line(attributes){
+            var self = this;
+            self.isVisible = ko.observable(false);
+            self.attributes = ko.observableArray(attributes);
+            self.attributesList = ko.observableArray();
+            self.lineNumber = ko.observable();
+            self.isAttributeListExist = ko.observable(false);
+            self.showLine = function(item, event) {
+                self.isVisible(!self.isVisible());
+            };
+
+            self.addComp = function(){
+                self.attributesList.push(new Component());
+            }
+
+            self.deleteComponent = function(comp){
+                self.attributesList.remove(comp);
+            }
+
+        }
+
+        function MassRequest(){
+            self = this;
+            self.header = ko.observableArray();
+            self.headerAttributesString = ko.observable();
+            self.details = ko.observableArray();
+            self.detailsAttributesString = ko.observable();
+            self.lines = ko.observableArray();
+            self.linesAttributesString = ko.observable();
+            self.isHeaderVisible = ko.observable(false);
+            self.isDetailsVisible = ko.observable(false);
+            
+
+            self.showHeader = function(){self.isHeaderVisible(!self.isHeaderVisible());}
+
+            self.showDetails = function(){self.isDetailsVisible(!self.isDetailsVisible());}
+
+            self.deleteLine = function(line){self.lines.remove(line);}
+
+            self.addLine = function(){
+                var attrs = [];
+                var newLine = new Line([]);
+                
+                self.linesAttributesString().split(',').forEach(function(attrName){
+                    var val = "";
+                    if(attrName == 'Request Line Number' || attrName == 'RequestLineNumber' ){
+                        newLine.lineNumber(self.lines().length+1);
+                        val = self.lines().length+1;
+                    }
+                    newLine.attributes.push(new Attribute(attrName,val));
+                });
+                newLine.isVisible(true);
+                self.lines.push(newLine);
+            };
+
+            self.getAllRows = function(){
+                var allRows = [];
+                allRows.push(self.headerAttributesString());
+                var values = "";           
+                self.header().forEach(function(attr){
+                    values += attr.value() + ",";                  
+                });
+                values = values.substr(0,values.length-1);
+
+                allRows.push(values);
+                values = "";
+                allRows.push(self.detailsAttributesString());
+                self.details().forEach(function(attr){
+                    values += attr.value() + ",";   
+                });
+                values = values.substr(0,values.length-1);
+                allRows.push(values);
+                
+                values = "";
+                allRows.push(self.linesAttributesString());
+                self.lines().forEach(function(line){
+                    line.attributes().forEach(function(attr){
+                        if(attr.name() == 'AttributesList')
+                        {
+                            values += parsToStringAttributesList(line.attributesList());
+                        }
+                        else
+                            values += attr.value();
+                        values += ",";  
+                    });
+                    values = values.substr(0,values.length-1);
+                    allRows.push(values);
+                    values = "";  
+                })
+                
+                return allRows;
+            };
+
+        }
+        
+        function ViewModel() {
+            var self = this;
+            self.massRequest = ko.observable(new MassRequest());
+            self.isFileLoaded = ko.observable(false);
+
+            self.exportFile = function(){
+                console.log('exportFile');
+                var rows = self.massRequest.getAllRows();
+
+                let csvContent = "data:text/csv;charset=utf-8,";
+                rows.forEach(function(rowArray){
+                   csvContent += rowArray + '\n'; // add carriage return
+                });               
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "my_data.csv");
+                document.body.appendChild(link); // Required for FF
+
+                link.click(); // This will download the data file named "my_data.csv".
+            };
+
+            self.openFile = function(data, event) {
+                var input = event.target;
+                var reader = new FileReader();
+                var text ="";
+                reader.onload = function(){
+                    text = reader.result.trim();
+                    //console.log(text);
+                    self.isFileLoaded(true);
+                    self.massRequest(getMassRequestFromText(text));
+                    console.log(self.massRequest());
+                     
+                    
+                };
+                reader.readAsText(input.files[0]);
+            };
+        };
+
+        var myViewModel = new ViewModel();
+
+        ko.applyBindings(myViewModel);
+    </script>
+       
+   </div>
+</body>
+
+</html>

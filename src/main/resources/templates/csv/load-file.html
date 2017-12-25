@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <title>Import CSV File</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="http://parsleyjs.org/src/parsley.css">
+</head>
+<body>
+    <section layout:fragment="header">
+        <h1>
+            Import
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Import CSV file</li>
+        </ol>
+    </section>
+    <div layout:fragment="content">
+        <div class="row"> 
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Import File To Translete</h3>
+                            </div>
+                            <div class="box-body"> 
+	                            <form method="POST" enctype="multipart/form-data" action="validate">
+	                            	<div class="form-group">
+	                                    <label>CSV File</label>
+	                                    <input id="file" class="form-control" type="file" name="file">
+	                                </div>
+	                                <div class="form-group">
+	                                    <input type="submit" class="btn btn-success" value="Load File">
+	                                </div>
+	                            </form>                            
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

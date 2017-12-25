@@ -1,0 +1,6 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,,,,,,,,,,
+2001,ChangeOwnership,Change Ownership,10/11/2017,haris kangas,10/11/2017,1,dd/MM/yyyy,apollon,2,,,,,,,,,,
+SRD,SalesChannel,Reason,AddComponentOrOffer,RemoveComponentOrOffer,DealerCode,DealerReferralCode,ShippingAddressID,RecipientFirstName,RecipientLastName,RecipientPhone,ShippingInstructions,,,,,,,,
+10/11/2017,MS,TOCO,,,MOBIFON,MOBIFON,805346491,Soustenos,Paris,4.56E+11,,,,,,,,,
+RequestLineNumber,ExternalLineID,ProductIdentifier,IdentifierType,AttributesList,TargetCustomerID,TargetContactID,TargetPcnID,TargetRootCustomerID,MainPromotionID,AdditionalPromotionID,PromoActionType,RemoveInstanceID,PromotionAttributes,EligibilityForInverseTaxation,ContractID,PromotionActivationData,isToTransferUnInvoicedCharges,LineAddComponentOrOffer,LineRemoveComponentOrOffer
+1,52227,750001364,ExternalProductID,250206737||EquipmentCID=252456247||Standard_Commitment_Period=24||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;,805325094,2092,333335689,805325094,,,,,,N,1,,N,250206737,
