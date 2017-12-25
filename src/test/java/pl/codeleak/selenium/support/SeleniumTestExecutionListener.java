@@ -41,6 +41,7 @@ public class SeleniumTestExecutionListener extends AbstractTestExecutionListener
             ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) context;
             ConfigurableListableBeanFactory bf = configurableApplicationContext.getBeanFactory();
             bf.registerResolvableDependency(WebDriver.class, webDriver);
+            configurableApplicationContext.close();
         }
     }
 

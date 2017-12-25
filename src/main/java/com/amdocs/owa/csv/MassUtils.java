@@ -65,7 +65,7 @@ public class MassUtils {
 		
 		String requestType = textAsArray[1].split(",")[2];
 		try {
-			MassRequest validationFile = getValidationFileByType(requestType);
+			//MassRequest validationFile = getValidationFileByType(requestType);
 			Method validate  = MassUtils.class.getMethod("validate"+requestType, String[].class,boolean.class);
 			try {
 				return (Boolean)validate.invoke(textAsArray,true);
@@ -84,7 +84,7 @@ public class MassUtils {
 	}
 	
 
-	private static MassRequest getValidationFileByType(String requestType) {
+	public static MassRequest getValidationFileByType(String requestType) {
 		File file = new File("abc.txt");
 		String absolutePath = file.getAbsolutePath().replace("abc.txt", "static\\csv-tamplets\\"+requestType+".csv");
 		String[] textAsArray ;

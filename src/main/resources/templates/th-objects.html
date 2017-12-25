@@ -21,7 +21,7 @@
     <section id="model-attributes">
         <h1>Model Attributes</h1>
         <ul th:each="message : ${messages}">
-            <td th:text="${message}">Message</td>
+            <li th:text="${message}">Message</li>
         </ul>
         <h1>Flash Attribute</h1>
         <p th:text="${flash}">None</p>
