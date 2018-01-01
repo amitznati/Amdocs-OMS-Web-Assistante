@@ -1,0 +1,52 @@
+<div data-bind="css: (($index() +1)  % 4) == 0 ? 'row' : ''">
+    <div class="col-md-3">
+        <div class="box box-primary">  
+            <div class="box-header with-border">
+                <h4  data-bind="text: name" class="box-title"></h4> 
+            </div>  
+            <div class="box-body">                                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div  class="form-group">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <p >Type:</p>
+                                </div>
+                                <div class="col-md-10">
+                                    <select data-bind="options: $root.validTypes,value: type" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Validation:</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div data-bind="foreach: attribute.validations">
+                        <div class="row">
+                            <div class=" col-md-1">
+                                <button class="btn btn-danger btn-xs" ><i class="fa fa-trash"></i></button>
+                            </div>
+                            <div class="col-md-5">
+
+                                <select data-bind="options: $root.validationOptions,value: name" class="form-control"></select>
+                            </div>
+                            <div class="col-md-5" data-bind="if: name() == 'type'">
+                                <select data-bind="options: $root.validValidationTypes,value: value" class="form-control"></select>
+                            </div>
+                            <div class="col-md-5" data-bind="if: name() != 'type'">
+                                <input class="form-control" type="text" data-bind="value: value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p><i class="fa fa-plus-square" aria-hidden="true"></i> Add Validation</p> 
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>

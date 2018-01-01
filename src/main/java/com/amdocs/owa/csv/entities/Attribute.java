@@ -1,14 +1,15 @@
 package com.amdocs.owa.csv.entities;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Attribute {
 	
 	private String name;
 	private String value;
 	private String type;
-	private HashMap<String,String> validationMap;
-	
+	private List<Validation> validationList = new ArrayList<Validation>();
+	public Attribute(){};
 	public String getName() {
 		return name;
 	}
@@ -33,11 +34,12 @@ public class Attribute {
 		this.name = name;
 		this.value = value;
 	}
-	public HashMap<String,String> getValidationMap() {
-		return validationMap;
+	public List<Validation> getValidationList() {
+		return validationList;
 	}
-	public void setValidationMap(HashMap<String,String> validationMap) {
-		this.validationMap = validationMap;
+	public void setValidationList(List<Validation> validationList) {
+		this.validationList = validationList;
 	}
+
 
 }

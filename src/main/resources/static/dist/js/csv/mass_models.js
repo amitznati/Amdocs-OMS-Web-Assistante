@@ -1,10 +1,20 @@
-function Attribute(name,value,type){
+function Attribute(name,value,type,validationList){
     var self = this;
     self.name = ko.observable(name);
     self.value = ko.observable(value);
     self.type = ko.observable( type || 'text');
-    self.validation = ko.observable();
+    self.validations = ko.observableArray();
+    if(validationList){
+        validationList.forEach(function(validation){
+            self.validations.push(new Validation(validation.name,validation.value));
+        })
+    }
+}
 
+function Validation(name,value){
+    var self = this;
+    self.name = ko.observable(name);
+    self.value = ko.observable(value);
 }
 
 function Component(){
@@ -39,6 +49,28 @@ function Line(attributes){
         self.attributesList.remove(comp);
     }
 
+}
+
+function MassValidationLine(line){
+    var self = this;
+    self.attributes = ko.observableArray();
+    self.isLineVisible = ko.observable(false);
+    self.showLine = function(){
+        self.isLineVisible(!self.isLineVisible());
+    }
+    if(line){
+        line.attributes.forEach(function(attr){
+            self.attributes.push(new Attribute(attr.name,attr.value,attr.type,attr.validationList));
+        })
+    }
+}
+
+function ValidationFile(validationFile){
+    var self = this;
+    self.massHeader = ko.observable(new MassValidationLine(validationFile.massHeader));
+    self.massDetails = ko.observable(new MassValidationLine(validationFile.massDetails));
+    self.massLine = ko.observable(new MassValidationLine(validationFile.massLines[0]));
+    
 }
 
 function MassRequest(){

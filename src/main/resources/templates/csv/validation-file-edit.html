@@ -2,13 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout">
+
 <head>
     <title>Edit Validation File</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="http://parsleyjs.org/src/parsley.css">
 </head>
 <body>
     <section layout:fragment="header">
         <h1>
-            Edit Validation File
+           <small> Edit Validation File For: </small> <span data-bind="text: file().requestType"></span>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -16,14 +20,102 @@
         </ol>
     </section>
     <div layout:fragment="content">
+        <!-- Mass Header -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i data-bind="{click: file().massHeader().showLine, css: file().massHeader().isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Header</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row" data-bind="visible: file().massHeader().isLineVisible">
+                            <div class="col-md-12">
+                                <div data-bind="foreach: {data: file().massHeader().attributes(), as: 'attribute'}">
+                                    <div th:replace="/csv/inc/validation_attribute"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Mass Header -->
+
+        <!-- Mass Details -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i data-bind="{click: file().massDetails().showLine, css: file().massDetails().isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Details</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row" data-bind="visible: file().massDetails().isLineVisible">
+                            <div class="col-md-12">
+                                <div data-bind="foreach: {data: file().massDetails().attributes(), as: 'attribute'}">
+                                    <div th:replace="/csv/inc/validation_attribute"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Mass Details -->
+
+        <!-- Mass Line -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i data-bind="{click: file().massLine().showLine, css: file().massLine().isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Line</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row" data-bind="visible: file().massLine().isLineVisible">
+                            <div class="col-md-12">
+                                <div data-bind="foreach: {data: file().massLine().attributes(), as: 'attribute'}">
+                                    <div th:replace="/csv/inc/validation_attribute"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Mass Line -->
+
 
     </div>
    <div layout:fragment="after-scripts">
+        <script type="text/javascript" src="http://parsleyjs.org/dist/parsley.min.js"></script>
+        <script src="/dist/js/csv/mass_models.js"></script>
+        <script src="/dist/js/csv/mass_utils.js"></script>
         <script th:inline="javascript">
         /*<![CDATA[*/
             var validationFile     = /*[[${validationFile}]]*/ 'validationFile';
+            var validAttributeTypes         = /*[[${validAttributeTypes}]]*/ 'validAttributeTypes';
+            var validationOptions         = /*[[${validationOptions}]]*/ 'validationOptions';
+            var validValidationTypes         = /*[[${validValidationTypes}]]*/ 'validValidationTypes';
 
         /*]]>*/
+        </script>
+        <script type="text/javascript">
+            console.log(validAttributeTypes);
+            function ViewModel(){
+                var self = this;
+                self.validTypes = validAttributeTypes;
+                self.validationOptions = validationOptions;
+                self.validValidationTypes = validValidationTypes;
+                self.file = ko.observable(new ValidationFile(validationFile));
+                console.log(self.file());
+                self.isHeaderVisible = ko.observable(true);
+                self.showHeader = function(){
+                    self.isHeaderVisible(!self.isHeaderVisible());
+                }
+            }
+
+            var myViewModel = new ViewModel();
+
+            ko.applyBindings(myViewModel);
         </script>
    </div>
 </body>

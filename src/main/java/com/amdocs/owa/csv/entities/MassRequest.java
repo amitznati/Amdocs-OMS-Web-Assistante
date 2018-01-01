@@ -5,12 +5,13 @@ import java.util.ArrayList;
 
 public class MassRequest {
 	
-	private MassDetails massDetails;
-	private MassHeader massHeader;
+	private MassDetails massDetails = new MassDetails();
+	private MassHeader massHeader = new MassHeader();
 	private List<MassLine> massLines = new ArrayList<MassLine>();
 	private String headerAttributesString;
 	private String detailsAttributesString;
 	private String linesAttributesString;
+	private String requestType;
 	public MassDetails getMassDetails() {
 		return massDetails;
 	}
@@ -46,6 +47,12 @@ public class MassRequest {
 	}
 	public void setLinesAttributesString(String linesAttributesString) {
 		this.linesAttributesString = linesAttributesString;
+	}
+	public String getRequestType() {
+		return requestType;
+	}
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
 	}
 
 }
