@@ -4,6 +4,7 @@ public class Validation {
 
 	private String name;
 	private String value;
+	public Validation(){}
 	public Validation(String _name,String _value){
 		this.name=_name;
 		this.value = _value;

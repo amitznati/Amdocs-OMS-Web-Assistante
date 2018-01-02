@@ -7,7 +7,7 @@ public class MassRequest {
 	
 	private MassDetails massDetails = new MassDetails();
 	private MassHeader massHeader = new MassHeader();
-	private List<MassLine> massLines = new ArrayList<MassLine>();
+	private List<MassRequestLine> massLines = new ArrayList<MassRequestLine>();
 	private String headerAttributesString;
 	private String detailsAttributesString;
 	private String linesAttributesString;
@@ -24,10 +24,10 @@ public class MassRequest {
 	public void setMassHeader(MassHeader massHeader) {
 		this.massHeader = massHeader;
 	}
-	public List<MassLine> getMassLines() {
+	public List<MassRequestLine> getMassLines() {
 		return massLines;
 	}
-	public void setMassLines(List<MassLine> massLines) {
+	public void setMassLines(List<MassRequestLine> massLines) {
 		this.massLines = massLines;
 	}
 	public String getHeaderAttributesString() {

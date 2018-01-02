@@ -1,0 +1,216 @@
+{
+  "massHeader": {
+    "attributes": [
+      {
+        "name": "External Mass Request ID",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "required",
+            "value": "true"
+          },
+          {
+            "name": "type",
+            "value": "integer"
+          }
+        ]
+      },
+      {
+        "name": "Mass Request Type",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Description",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Execution Date",
+        "value": null,
+        "type": "date",
+        "validations": []
+      },
+      {
+        "name": "Request Creator",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "required",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "name": "Request Creation Date",
+        "value": null,
+        "type": "date",
+        "validations": []
+      },
+      {
+        "name": "Number Of Request Lines",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "type",
+            "value": "integer"
+          }
+        ]
+      },
+      {
+        "name": "Date Format",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "required",
+            "value": "dd/MM/yyyy"
+          }
+        ]
+      },
+      {
+        "name": "Sync Group Name",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Number Of Mass Sync Files\r",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "type",
+            "value": "integer"
+          }
+        ]
+      }
+    ],
+    "isLineVisible": true
+  },
+  "massDetails": {
+    "attributes": [
+      {
+        "name": "SRD",
+        "value": null,
+        "type": "date",
+        "validations": []
+      },
+      {
+        "name": "SalesChannel",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Reason",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "maxlength",
+            "value": "10"
+          },
+          {
+            "name": "required",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "name": "AddComponentOrOffer",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "RemoveComponentOrOffer",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "DealerCode",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "maxlength",
+            "value": "10"
+          },
+          {
+            "name": "required",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "name": "DealerReferralCode",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "maxlength",
+            "value": "10"
+          },
+          {
+            "name": "required",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "name": "ShippingAddressID",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "type",
+            "value": "integer"
+          }
+        ]
+      },
+      {
+        "name": "RecipientFirstName",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "RecipientLastName",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "RecipientPhone",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "ShippingInstructions",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "FullPortIn\r",
+        "value": null,
+        "type": "text",
+        "validations": []
+      }
+    ],
+    "isLineVisible": false
+  },
+  "massLine": {
+    "attributes": [],
+    "isLineVisible": false
+  },
+  "requestType": "ChangeConfiguration"
+}

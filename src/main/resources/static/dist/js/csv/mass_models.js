@@ -9,12 +9,19 @@ function Attribute(name,value,type,validationList){
             self.validations.push(new Validation(validation.name,validation.value));
         })
     }
+    self.addValidation = function(){
+        self.validations.push(new Validation());
+    }
+    self.removeValidation = function(validation){
+        self.validations.remove(validation);
+    }
 }
 
 function Validation(name,value){
     var self = this;
     self.name = ko.observable(name);
     self.value = ko.observable(value);
+
 }
 
 function Component(){
@@ -38,7 +45,6 @@ function Line(attributes){
     self.isAttributeListExist = ko.observable(false);
     self.showLine = function(item, event) {
         self.isVisible(!self.isVisible());
-        console.log('show line');
     };
 
     self.addComp = function(){
@@ -53,15 +59,24 @@ function Line(attributes){
 
 function MassValidationLine(line){
     var self = this;
+    self.lineName = ko.observable();
     self.attributes = ko.observableArray();
     self.isLineVisible = ko.observable(false);
     self.showLine = function(){
         self.isLineVisible(!self.isLineVisible());
     }
+    self.removeAttribute = function(){
+        self.attributes.remove(this);
+        
+    }
+    self.addAttribute = function(){
+        self.attributes.push(new Attribute());
+    }
     if(line){
         line.attributes.forEach(function(attr){
-            self.attributes.push(new Attribute(attr.name,attr.value,attr.type,attr.validationList));
+            self.attributes.push(new Attribute(attr.name,attr.value,attr.type,attr.validations));
         })
+        self.lineName(line.lineName);
     }
 }
 
@@ -69,7 +84,8 @@ function ValidationFile(validationFile){
     var self = this;
     self.massHeader = ko.observable(new MassValidationLine(validationFile.massHeader));
     self.massDetails = ko.observable(new MassValidationLine(validationFile.massDetails));
-    self.massLine = ko.observable(new MassValidationLine(validationFile.massLines[0]));
+    self.massLine = ko.observableArray([new MassValidationLine(validationFile.massLines[0])]);
+    self.requestType = validationFile.requestType;
     
 }
 

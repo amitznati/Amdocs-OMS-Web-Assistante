@@ -6,12 +6,22 @@ public class MassLine {
 	
 	private List<Attribute> attributes;
 	
+	private String lineName;
+	
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public String getLineName() {
+		return lineName;
+	}
+
+	public void setLineName(String lineName) {
+		this.lineName = lineName;
 	}
 
 	

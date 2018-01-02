@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
 import com.amdocs.owa.csv.entities.MassRequest;
 
 
@@ -16,7 +13,7 @@ public class CSVInitializer {
 	static {
 		List<String> allTypes = MassUtils.getAllValidationFilesName();
 		for(String type : allTypes)
-			validationFilesMap.put(type, MassUtils.buildValidationFile(type));
+			validationFilesMap.put(type, MassUtils.getValidationFileByType(type));
 	}
 	
 	@Value("${oms.csv.attributes.validTypes}")

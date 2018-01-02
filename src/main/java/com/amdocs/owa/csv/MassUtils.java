@@ -1,10 +1,10 @@
 package com.amdocs.owa.csv;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import com.amdocs.owa.csv.entities.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 public class MassUtils {
 	
@@ -69,58 +71,77 @@ public class MassUtils {
 	    return massRequest;
 	}
 	
-	public static MassRequest buildValidationFile(String requestType)
+//	public static MassRequest buildValidationFile(String requestType)
+//	{
+//		if(requestType == null || requestType.isEmpty())
+//			return null;
+//		String validationFileAsString = getValidationFileAsStringByType(requestType);
+//		MassRequest massRequest = new MassRequest();
+//	    String[] textAsArray = validationFileAsString.split("\n");
+//	    massRequest.setRequestType(requestType);
+//	    massRequest.setHeaderAttributesString(textAsArray[0]);
+//	    massRequest.setDetailsAttributesString(textAsArray[2]);
+//	    massRequest.setLinesAttributesString(textAsArray[4]);
+//	    String[] headerAttrs = textAsArray[0].split(",");
+//	    String[] headerValues = textAsArray[1].split(",");
+//	    String[] detailsAttrs = textAsArray[2].split(",");
+//	    String[] detailsValues = textAsArray[3].split(",");
+//	    String[] linesAttrs = textAsArray[4].split(",");
+//	    String[] linesValues =  textAsArray[5].split(",");
+//	   
+//	    massRequest.getMassHeader().setAttributes(getAttributeWithValidation(headerAttrs,headerValues));
+//	    massRequest.getMassDetails().setAttributes(getAttributeWithValidation(detailsAttrs, detailsValues));
+//	    massRequest.getMassLines().add(new MassLine());
+//	    massRequest.getMassLines().get(0).setAttributes(getAttributeWithValidation(linesAttrs, linesValues));
+//	  
+//	    return massRequest;
+//		
+//	}
+	
+	public static MassRequest getValidationFileByType(String requestType)
 	{
-		if(requestType == null || requestType.isEmpty())
-			return null;
-		String validationFileAsString = getValidationFileAsStringByType(requestType);
-		MassRequest massRequest = new MassRequest();
-	    String[] textAsArray = validationFileAsString.split("\n");
-	    massRequest.setRequestType(requestType);
-	    massRequest.setHeaderAttributesString(textAsArray[0]);
-	    massRequest.setDetailsAttributesString(textAsArray[2]);
-	    massRequest.setLinesAttributesString(textAsArray[4]);
-	    String[] headerAttrs = textAsArray[0].split(",");
-	    String[] headerValues = textAsArray[1].split(",");
-	    String[] detailsAttrs = textAsArray[2].split(",");
-	    String[] detailsValues = textAsArray[3].split(",");
-	    String[] linesAttrs = textAsArray[4].split(",");
-	    String[] linesValues =  textAsArray[5].split(",");
-	   
-	    massRequest.getMassHeader().setAttributes(getAttributeWithValidation(headerAttrs,headerValues));
-	    massRequest.getMassDetails().setAttributes(getAttributeWithValidation(detailsAttrs, detailsValues));
-	    massRequest.getMassLines().add(new MassLine());
-	    massRequest.getMassLines().get(0).setAttributes(getAttributeWithValidation(linesAttrs, linesValues));
-	  
-	    return massRequest;
+		String fullName = System.getProperty("user.dir") + "/csv-tamplets/" + requestType+".json";
+		File validationF = new File(fullName);
 		
+		MassRequest massRequest = null;
+		if(validationF.exists())
+			try {
+				Gson g = new Gson();
+				String contents = new String(Files.readAllBytes(Paths.get(fullName)));
+				massRequest = g.fromJson(contents, MassRequest.class);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return massRequest;
 	}
 	
-	private static List<Attribute> getAttributeWithValidation(String[] lineAttrs, String[] lineValues) {
-		List<Attribute> retVal = new ArrayList<Attribute>();
-		for (int i = 0; i < lineAttrs.length; i++) {
-			if (lineAttrs[i] != null && !lineAttrs[i].trim().isEmpty()) {
-				Attribute attribute = new Attribute();
-				attribute.setName(lineAttrs[i]);
-				String[] allProps = lineValues[i].split(";");
-				for (String prop : allProps) {
-					String[] singleProp = prop.split("=");
-					if ("type".equals(singleProp[0])) {
-						attribute.setType(singleProp[1]);
-					} else if ("validation".equals(singleProp[0])) {
-						String[] allValidations = singleProp[1].split("\\|\\|");
-						for (String validationAttr : allValidations) {
-							String[] pair = validationAttr.split(":");
-							attribute.getValidationList().add(new Validation(pair[0],pair[1]));
-						}
-					}
-				}
-				retVal.add(attribute);
-			}
-
-		}
-		return retVal;
-	}
+//	private static List<Attribute> getAttributeWithValidation(String[] lineAttrs, String[] lineValues) {
+//		List<Attribute> retVal = new ArrayList<Attribute>();
+//		for (int i = 0; i < lineAttrs.length; i++) {
+//			if (lineAttrs[i] != null && !lineAttrs[i].trim().isEmpty()) {
+//				Attribute attribute = new Attribute();
+//				attribute.setName(lineAttrs[i]);
+//				String[] allProps = lineValues[i].split(";");
+//				for (String prop : allProps) {
+//					String[] singleProp = prop.split("=");
+//					if ("type".equals(singleProp[0])) {
+//						attribute.setType(singleProp[1]);
+//					} else if ("validation".equals(singleProp[0])) {
+//						String[] allValidations = singleProp[1].split("\\|\\|");
+//						for (String validationAttr : allValidations) {
+//							String[] pair = validationAttr.split(":");
+//							attribute.getValidationList().add(new Validation(pair[0],pair[1]));
+//						}
+//					}
+//				}
+//				retVal.add(attribute);
+//			}
+//
+//		}
+//		return retVal;
+//	}
 
 
 	public static String getRequestTypeFromInputFile(String inputFile) 
@@ -150,26 +171,27 @@ public class MassUtils {
    	    	if (listOfFiles[i].isFile()) 
    	    	{
    	    		String fullName = listOfFiles[i].getName();
-    	        list.add(fullName.substring(0, fullName.length()-4));
+    	        list.add(fullName.substring(0, fullName.length()-5));
     	    }     
     	}
     	return list;
     }
 	
-	public static String getValidationFileAsStringByType(String requestType)
-	{
-		File validationF = new File(System.getProperty("user.dir") + "/csv-tamplets/" + requestType+".csv");
-		if(validationF.exists())
-			try {
-				return new String(Files.readAllBytes(validationF.toPath()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return null;
-	}
+//	public static String getValidationFileAsStringByType(String requestType)
+//	{
+//		File validationF = new File(System.getProperty("user.dir") + "/csv-tamplets/" + requestType+".csv");
+//		if(validationF.exists())
+//			try {
+//				System.out.println( validationF.getAbsolutePath());
+//				return new String(Files.readAllBytes(validationF.toPath()));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		return null;
+//	}
 
-	public static String getInputFileAsString(MultipartFile file) {
+	public static String getFileAsString(MultipartFile file) {
 		String inputFile = null;
 		try {
 			inputFile =  new String(file.getBytes());
@@ -178,6 +200,22 @@ public class MassUtils {
 		}
 		
 		return inputFile;
+	}
+
+	public static void saveValidationFile(String file) {
+		Gson g = new Gson(); 
+		MassRequest p = g.fromJson(file, MassRequest.class);
+		try {
+			FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
+			System.out.println(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
+			fileWriter.write(file);
+			fileWriter.flush();
+			fileWriter.close();
+			CSVInitializer.validationFilesMap.put(p.getRequestType(), getValidationFileByType(p.getRequestType()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 //	private static boolean validateMassRequest(String[] textAsArray) {

@@ -23,18 +23,18 @@ public class CSVFileController {
 	@Value("${oms.csv.validation.validTypes}")
 	private String[] validValidationTypes;
 	
-	@RequestMapping("/import-file")
+	@RequestMapping("import-file")
     public String importCSVFile(Model model) {
 		
         return "csv/import";
     }
 
-    @PostMapping("/validate")
+    @PostMapping("validate")
     public String validateCSVFile(@RequestParam("file") MultipartFile file,Model model) 
     {
-    	String inputFile = MassUtils.getInputFileAsString(file);
+    	String inputFile = MassUtils.getFileAsString(file);
     	String requestType = MassUtils.getRequestTypeFromInputFile(inputFile);
-    	String validationFile = MassUtils.getValidationFileAsStringByType(requestType);
+    	MassRequest validationFile = CSVInitializer.validationFilesMap.get(requestType);
     	
 		model.addAttribute("ValidationFile" , validationFile);
 		model.addAttribute("inputFile" , inputFile);
@@ -42,25 +42,25 @@ public class CSVFileController {
         return "csv/validate";
     }
     
-    @GetMapping("/validate")
+    @GetMapping("load-file")
     public String loadCSVFile(Model model) {
 
         return "csv/load-file";
     }
 
-    @GetMapping("/validation-settings")
+    @GetMapping("validation-settings")
     public String validationSettings(Model model) {
     	model.addAttribute("validationFiles", MassUtils.getAllValidationFilesName());
         return "csv/validation-settings";
     }
     
-    @PostMapping("/new-validation-file")
+    @PostMapping("new-validation-file")
     public String newValidationFile(@RequestParam(value = "file",required=true) MultipartFile file, Model model) {
     	
         return "csv/validation-settings";
     }
     
-    @PostMapping("/edit-validation-file")
+    @PostMapping("edit-validation-file")
     public String editValidationFile(@RequestParam(value ="request-type",required=true) String requestType, Model model) {
     	
     	MassRequest validationFile = CSVInitializer.validationFilesMap.get(requestType);
@@ -69,6 +69,12 @@ public class CSVFileController {
     	model.addAttribute("validationOptions", validationOptions.clone());
     	model.addAttribute("validValidationTypes", validValidationTypes.clone());
         return "csv/validation-file-edit";
+    }
+    
+    @PostMapping("save-validation-file")
+    public String saveValidationFile(@RequestParam(value= "file",required =true) String file,Model model){
+    	MassUtils.saveValidationFile(file);
+    	return "redirect:" + "/validation-settings";
     }
 
     

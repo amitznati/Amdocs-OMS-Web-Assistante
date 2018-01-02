@@ -8,7 +8,7 @@ public class Attribute {
 	private String name;
 	private String value;
 	private String type;
-	private List<Validation> validationList = new ArrayList<Validation>();
+	private List<Validation> validations = new ArrayList<Validation>();
 	public Attribute(){};
 	public String getName() {
 		return name;
@@ -34,11 +34,11 @@ public class Attribute {
 		this.name = name;
 		this.value = value;
 	}
-	public List<Validation> getValidationList() {
-		return validationList;
+	public List<Validation> getValidations() {
+		return validations;
 	}
-	public void setValidationList(List<Validation> validationList) {
-		this.validationList = validationList;
+	public void setValidations(List<Validation> validationList) {
+		this.validations = validationList;
 	}
 
 
