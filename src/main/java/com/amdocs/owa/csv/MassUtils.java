@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import com.amdocs.owa.csv.entities.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class MassUtils {
@@ -202,13 +201,13 @@ public class MassUtils {
 		return inputFile;
 	}
 
-	public static void saveValidationFile(String file) {
+	public static void saveValidationFileFromJsonString(String jsonString) {
 		Gson g = new Gson(); 
-		MassRequest p = g.fromJson(file, MassRequest.class);
+		MassRequest p = g.fromJson(jsonString, MassRequest.class);
 		try {
 			FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
 			System.out.println(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
-			fileWriter.write(file);
+			fileWriter.write(jsonString);
 			fileWriter.flush();
 			fileWriter.close();
 			CSVInitializer.validationFilesMap.put(p.getRequestType(), getValidationFileByType(p.getRequestType()));
@@ -216,6 +215,41 @@ public class MassUtils {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public static String createNewValidationFile(MultipartFile file) {
+		String text = getFileAsString(file);
+		String requestType = getRequestTypeFromInputFile(text);
+		if(requestType == null)
+			return null;
+		MassRequest massRequest = new MassRequest();
+	    String[] textAsArray = text.split("\n");
+	    massRequest.setRequestType(requestType);
+	    String[] headerAttrs = textAsArray[0].split(",");
+	    String[] detailsAttrs = textAsArray[2].split(",");
+	    String[] linesAttrs = textAsArray[4].split(",");
+	    
+	    createNewLine(massRequest.getMassHeader(), headerAttrs);
+	    createNewLine(massRequest.getMassDetails(), detailsAttrs);
+	    massRequest.getMassLines().add(new MassRequestLine());
+	    createNewLine(massRequest.getMassLines().get(0), linesAttrs);
+
+	    Gson g = new Gson();
+	    String jsonInString = g.toJson(massRequest);
+	    saveValidationFileFromJsonString(jsonInString);
+		return requestType;
+	}
+
+	private static void createNewLine(MassLine line, String[] headerAttrs) {
+		for(String attrName : headerAttrs)
+	    {
+			if(attrName != null && !attrName.trim().isEmpty())
+			{
+		    	Attribute attr = new Attribute(attrName,null);
+		    	attr.setType("text");
+		    	line.getAttributes().add(attr);
+			}
+	    }
 	}
 	
 //	private static boolean validateMassRequest(String[] textAsArray) {

@@ -1,0 +1,188 @@
+{
+  "massHeader": {
+    "lineName": "Mass Header",
+    "attributes": [
+      {
+        "name": "External Mass Request ID",
+        "value": null,
+        "type": "text",
+        "validations": [
+          {
+            "name": "required",
+            "value": null
+          },
+          {
+            "name": "type",
+            "value": "digits"
+          }
+        ]
+      },
+      {
+        "name": "Mass Request Type",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Description",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Execution Date",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Creator",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Creation Date",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Number Of Request Lines",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Date Format",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Sync Group Name",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Number Of Mass Sync Files",
+        "value": null,
+        "type": "text",
+        "validations": []
+      }
+    ],
+    "isLineVisible": false
+  },
+  "massDetails": {
+    "lineName": "Mass Details",
+    "attributes": [
+      {
+        "name": "SRD",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Sales Channel",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Reason",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Dealer Code",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Dealer Referral Code",
+        "value": null,
+        "type": "text",
+        "validations": []
+      }
+    ],
+    "isLineVisible": false
+  },
+  "massLines": [
+    {
+      "lineName": "Mass Line",
+      "attributes": [
+        {
+          "name": "Request Line Number",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "External Line ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Product Identifier",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Identifier Type",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target Customer ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target Contact ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target PCN ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "TargetRootCustomerID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "EligibilityForInverseTaxation",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "ContractID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "IsToTransferUnInvoicedCharges\r",
+          "value": null,
+          "type": "text",
+          "validations": []
+        }
+      ],
+      "isLineVisible": false
+    }
+  ],
+  "requestType": "ChangeOwnership"
+}

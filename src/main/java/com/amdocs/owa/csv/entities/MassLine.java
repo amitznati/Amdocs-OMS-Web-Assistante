@@ -1,10 +1,11 @@
 package com.amdocs.owa.csv.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MassLine {
 	
-	private List<Attribute> attributes;
+	private List<Attribute> attributes = new ArrayList<Attribute>();
 	
 	private String lineName;
 	

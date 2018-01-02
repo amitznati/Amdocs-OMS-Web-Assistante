@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.amdocs.owa.csv.CSVInitializer;
 import com.amdocs.owa.csv.MassUtils;
@@ -55,9 +56,9 @@ public class CSVFileController {
     }
     
     @PostMapping("new-validation-file")
-    public String newValidationFile(@RequestParam(value = "file",required=true) MultipartFile file, Model model) {
-    	
-        return "csv/validation-settings";
+    public String newValidationFile(@RequestParam(value = "file",required=true) MultipartFile file, Model model,RedirectAttributes redirectAttributes) {
+    	String requestType = MassUtils.createNewValidationFile(file);
+        return editValidationFile(requestType, model);
     }
     
     @PostMapping("edit-validation-file")
@@ -73,7 +74,7 @@ public class CSVFileController {
     
     @PostMapping("save-validation-file")
     public String saveValidationFile(@RequestParam(value= "file",required =true) String file,Model model){
-    	MassUtils.saveValidationFile(file);
+    	MassUtils.saveValidationFileFromJsonString(file);
     	return "redirect:" + "/validation-settings";
     }
 

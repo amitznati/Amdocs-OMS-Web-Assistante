@@ -20,9 +20,9 @@
         </ol>
     </section>
     <div layout:fragment="content">
-       <!--  <form id="form" data-parsley-validate="" method="POST" enctype="multipart/form-data" action="save-validation-file"> -->
+        <form id="form" data-parsley-validate="" method="POST" enctype="multipart/form-data" action="save-validation-file">
             
-            <div data-bind="foreach: {data: [file().massHeader(),file().massDetails(),file().massLine()[0]], as: 'line'}">
+            <div data-bind="foreach: {data: [file().massHeader(),file().massDetails(),file().massLines()[0]], as: 'line'}">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-primary">
@@ -45,80 +45,8 @@
                     </div>
                 </div>
             </div>
-             <!-- Mass Header -->
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i data-bind="{click: file().massHeader().showLine, css: file().massHeader().isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Header</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="row" data-bind="visible: file().massHeader().isLineVisible">
-                                <div class="col-md-12">
-                                    <div data-bind="foreach: {data: file().massHeader().attributes(), as: 'attribute'}">
-                                        <div th:replace="/csv/inc/validation_attribute"></div>
-                                    </div>
-                                    <div>
-                                        <p><i data-bind="click: file().massHeader().addAttribute" class="fa fa-plus-square" aria-hidden="true"></i> Add Attribute</p> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Mass Header -->
-
-            <!-- Mass Details -->
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i data-bind="{click: file().massDetails().showLine, css: file().massDetails().isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Details</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="row" data-bind="visible: file().massDetails().isLineVisible">
-                                <div class="col-md-12">
-                                    <div data-bind="foreach: {data: file().massDetails().attributes(), as: 'attribute'}">
-                                        <div th:replace="/csv/inc/validation_attribute"></div>
-                                    </div>
-                                    <div>
-                                        <p><i data-bind="click: file().massDetails().addAttribute" class="fa fa-plus-square" aria-hidden="true"></i> Add Attribute</p> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Mass Details -->
-
-            <!-- Mass Line -->
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i data-bind="{click: file().massLine()[0].showLine, css: file().massLine()[0].isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Mass Line</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="row" data-bind="visible: file().massLine()[0].isLineVisible">
-                                <div class="col-md-12">
-                                    <div data-bind="foreach: {data: file().massLine()[0].attributes(), as: 'attribute'}">
-                                        <div th:replace="/csv/inc/validation_attribute"></div>
-                                    </div>
-                                    <div>
-                                        <p><i data-bind="click: file().massLine()[0].addAttribute" class="fa fa-plus-square" aria-hidden="true"></i> Add Attribute</p> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Mass Line -->
 
             <input name="file" type="hidden" data-bind="value: ko.toJSON(file(), null, 2)">
-            <input name="type" type="hidden" data-bind="value: file().requestType">
 
             <div class="row"> 
                 <div class="col-xs-6">
@@ -128,14 +56,15 @@
                         </div>
                         <div class="box-body">                           
                             <div class="form-group">
-                                <button  class="btn btn-success" type="submit">Save File</button>
-                                <button id="submit-btn" class="btn btn-success" >print File</button>
+                                <button class="btn btn-success" type="submit">Save File</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        <!-- </form> -->
+
+
+        </form>
 
     </div>
    <div layout:fragment="after-scripts">
@@ -172,7 +101,6 @@
 
             $(document).ready(function(){
                 $('#form').parsley();
-                $('#submit-btn').on('click',function(){console.log(ko.toJSON(myViewModel.file(), null, 2))})
             });
         </script>
    </div>
