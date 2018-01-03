@@ -1,0 +1,6 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,,,,,,
+2111,ChangeConfiguration,ChangeConfiguration,21/12/2017,andrei.nicolae2,21/12/2017,1,dd/MM/yyyy,,,,,,,,
+SRD,SalesChannel,Reason,AddComponentOrOffer,RemoveComponentOrOffer,DealerCode,DealerReferralCode,ShippingAddressID,RecipientFirstName,RecipientLastName,RecipientPhone,ShippingInstructions,FullPortIn,,,
+21/12/2017,MS,ADDNDA,,,BE1BB199,BE1BB199,1,Cont Teste Sanity,Migrare Chunk3,111,,No,,,
+RequestLineNumber,ExternalLineID,ProductIdentifier,IdentifierType,AttributesList,pcnID,MainPromotionID,AdditionalPromotionID,PromoActionType,RemoveInstanceID,PromotionAttributes,EligibilityForInverseTaxation,ContractID,PromotionActivationData,LineAddComponentOrOffer,LineRemoveComponentOrOffer
+1,,721000924,ExternalProductID,251507387::1||BOOverrideOC=10;251502587::2||DiscountCategory=A||DiscountCode=DEBUPRICE||DiscountDescription=Discount pentru exceptii pricing||DiscountName=DEBUPRICE||DiscountType=Editable;251507387::2||BOOverrideOC=50; ,,,,,,,N ,,,251502587::1;251502587::2,

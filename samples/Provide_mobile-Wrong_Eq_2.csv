@@ -1,0 +1,7 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,,,,,,
+17773,ProvideMobileOffer,ProvideMobileOffer,05/12/2017,marina,05/12/2017,2,dd/MM/yyyy,Doros28,1,,,,,,
+SalesChannel,Reason,ServiceRequiredDate,OfferID,AddComponentOrOffer,RemoveComponentOrOffer,DealerCode,DealerReferralCode,ShippingAddressID,RecipientFirstName,RecipientLastName,RecipientPhone,ShippingInstructions,,,
+MS,PRACT,05/12/2017,250090057,1071773;250206737,,MOBIFON,MOBIFON,1,dooor,rrooos,5436545646,,,,
+Request Line Number,ExternalLineID,AttributesList,TargetCustomerID,TargetBARID,TargetContactID,MSISDN,SIMSerialNumber,ResourcePoolID,MainPromotionID,AdditionalPromotionID,TargetRootCustomerID,PromotionAttributes,EligibilityForInverseTaxation,ContractID,PromotionActivationData
+1,1,250206737||EquipmentCID=25245405||Standard_Commitment_Period=12||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;201292484||Standard_Commitment_Period=12,500003291,333334808,131,731371483,8941000000000880510,,251280837,,500003290,,,,
+2,1,250206737||EquipmentCID=252454057||Standard_Commitment_Period=12||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;201292484||Standard_Commitment_Period=12,500003291,333334808,131,731371484,8941000000000880500,,251280837,,500003290,,,,

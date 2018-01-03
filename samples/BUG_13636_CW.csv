@@ -1,0 +1,7 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,
+1321,ChangeOwnership,Mass CHOWN,23/11/2017,cristian.dobre,23/11/2017,71,dd/MM/yyyy,,,
+SRD,Sales Channel,Reason,Dealer Code,Dealer Referral Code,,,,,,
+23/11/2017,MS,MOVEOU,AE9TM126,AE9TM126,,,,,,
+Request Line Number,External Line ID,Product Identifier,Identifier Type,Target Customer ID,Target Contact ID,Target PCN ID,TargetRootCustomerID,EligibilityForInverseTaxation,ContractID,IsToTransferUnInvoicedCharges,
+1,,725151414,ExternalProductID,700020073,953461,201367678,503714703,,,FALSE
+2,,736909348,ExternalProductID,700020073,953461,201367678,503714703,,,FALSE

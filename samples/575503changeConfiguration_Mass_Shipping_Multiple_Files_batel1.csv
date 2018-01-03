@@ -1,0 +1,7 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,,,,,,
+121001,ChangeConfiguration,Change Configuration,27/12/2017,rpopescu,27/12/2017,2,dd/MM/yyyy,amit5,2,
+SRD,SalesChannel,Reason,AddComponentOrOffer,RemoveComponentOrOffer,DealerCode,DealerReferralCode,ShippingAddressID,RecipientFirstName,RecipientLastName,RecipientPhone,ShippingInstructions,,,,
+27/12/2017,MS,ADDMD,,250219337,MOBIFON,MOBIFON,805306474,fdss,fdgfdg,4350000000,,
+RequestLineNumber,ExternalLineID,ProductIdentifier,IdentifierType,AttributesList,pcnID,MainPromotionID,AdditionalPromotionID,PromoActionType,RemoveInstanceID,PromotionAttributes,EligibilityForInverseTaxation,ContractID,PromotionActivationData,LineAddComponentOrOffer,LineRemoveComponentOrOffer
+1,52227,731150516,ExternalProductID,250206737||EquipmentCID=252454057||Standard_Commitment_Period=12||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;201292484||Standard_Commitment_Period=48;,333335180,251280837,,,,,N ,,,250206737,
+2,52227,731150522,ExternalProductID,250206737||EquipmentCID=252454057||Standard_Commitment_Period=12||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;201292484||Standard_Commitment_Period=48;,333335180,251280837,,,,,N ,,,250206737,

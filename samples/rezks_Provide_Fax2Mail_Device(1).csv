@@ -1,0 +1,6 @@
+External Mass Request ID,Mass Request Type,Request Description,Request Execution Date,Request Creator,Request Creation Date,Number Of Request Lines,Date Format,Sync Group Name,Number Of Mass Sync Files,,,,,,
+666111,ProvideFixOffer,ProvideFixOffer,19-12-17,sof,19-12-17,1,dd/MM/yyyy,,,,,,,,
+SalesChannel,Reason,ServiceRequiredDate,OfferID,AddComponentOrOffer,RemoveComponentOrOffer,DealerCode,DealerReferralCode,,,,,,,,
+MS,PRACT,19-12-17,251283457,1159963;250206737,,BE1BB100,BE1BB100,,,,,,,,
+Request Line Number,ExternalLineID,AttributesList,TargetCustomerID,TargetBARID,TargetContactID,MSISDN,SIMSerialNumber,ResourcePoolID,MainPromotionID,AdditionalPromotionID,TargetRootCustomerID,PromotionAttributes,EligibilityForInverseTaxation,ContractID,PromotionActivationData
+1,21,251194687||GEONUM=311201845||Standard_Commitment_Period=24||Fax_Email_Address=asda@asda.com||SBC_Country=Bucuresti;250206737||EquipmentCID=252454057||Standard_Commitment_Period=24||StockDeliveryMethod=Shipping||UpfrontPaymentMethodforDevices=COSI||Number_of_Installments=0;201292484||Commitment_Update_Type=New,700001963,850000988,10000924,,,,251280837,,700001962,,,,
