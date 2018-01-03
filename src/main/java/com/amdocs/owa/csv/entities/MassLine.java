@@ -9,6 +9,8 @@ public class MassLine {
 	
 	private String lineName;
 	
+	private List<String> exceptedAttribute = new ArrayList<String>();
+	
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
@@ -23,6 +25,14 @@ public class MassLine {
 
 	public void setLineName(String lineName) {
 		this.lineName = lineName;
+	}
+
+	public List<String> getExceptedAttribute() {
+		return exceptedAttribute;
+	}
+
+	public void setExceptedAttribute(List<String> expectedAttribute) {
+		this.exceptedAttribute = expectedAttribute;
 	}
 
 	

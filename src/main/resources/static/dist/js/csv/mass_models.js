@@ -84,7 +84,11 @@ function ValidationFile(validationFile){
     var self = this;
     self.massHeader = ko.observable(new MassValidationLine(validationFile.massHeader));
     self.massDetails = ko.observable(new MassValidationLine(validationFile.massDetails));
-    self.massLines = ko.observableArray([new MassValidationLine(validationFile.massLines[0])]);
+
+    self.massLines = ko.observableArray();
+    validationFile.massLines.forEach(function(line){
+        self.massLines.push(new MassValidationLine(line));
+    })
     self.requestType = validationFile.requestType;
     
 }

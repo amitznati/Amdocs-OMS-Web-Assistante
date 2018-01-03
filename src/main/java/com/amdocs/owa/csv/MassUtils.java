@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -206,11 +207,10 @@ public class MassUtils {
 		MassRequest p = g.fromJson(jsonString, MassRequest.class);
 		try {
 			FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
-			System.out.println(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
 			fileWriter.write(jsonString);
 			fileWriter.flush();
 			fileWriter.close();
-			CSVInitializer.validationFilesMap.put(p.getRequestType(), getValidationFileByType(p.getRequestType()));
+			//CSVInitializer.validationFilesMap.put(p.getRequestType(), getValidationFileByType(p.getRequestType()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -225,6 +225,7 @@ public class MassUtils {
 		MassRequest massRequest = new MassRequest();
 	    String[] textAsArray = text.split("\n");
 	    massRequest.setRequestType(requestType);
+
 	    String[] headerAttrs = textAsArray[0].split(",");
 	    String[] detailsAttrs = textAsArray[2].split(",");
 	    String[] linesAttrs = textAsArray[4].split(",");
@@ -245,11 +246,103 @@ public class MassUtils {
 	    {
 			if(attrName != null && !attrName.trim().isEmpty())
 			{
+				line.getExceptedAttribute().add(attrName);
 		    	Attribute attr = new Attribute(attrName,null);
 		    	attr.setType("text");
 		    	line.getAttributes().add(attr);
 			}
 	    }
+	}
+
+	public static MassRequest buildMassRequestFromFile(MultipartFile file,List<String> errors) {
+		String fileAsString = getFileAsString(file);
+		String requestType = getRequestTypeFromInputFile(fileAsString);
+		MassRequest massRequest = getValidationFileByType(requestType);
+		if(massRequest == null ){
+			errors.add("Validation File was not found for request type: "+requestType);
+			return null;
+		}
+		addValueToMassRequest(massRequest,fileAsString,errors);
+		return massRequest;
+	}
+
+	private static void addValueToMassRequest(MassRequest massRequest,String fileAsString,List<String> errors) {
+		try{
+			if(fileAsString == null || fileAsString.isEmpty()){
+				errors.add("File input is empty");
+				return;
+			}
+		    String[] textAsArray = fileAsString.split("\n");
+	
+		    String[] headerAttrs = textAsArray[0].split(",");
+		    String[] headerValues = textAsArray[1].split(",");
+		    String[] detailsAttrs = textAsArray[2].split(",");
+		    String[] detailsValues = textAsArray[3].split(",");
+		    String[] linesAttrs = textAsArray[4].split(",");
+		    String[] lines = Arrays.copyOfRange(textAsArray,5,textAsArray.length);
+		    validateExpectedAttributeForLine(massRequest.getMassHeader(),headerAttrs,errors);
+		    validateExpectedAttributeForLine(massRequest.getMassDetails(),detailsAttrs,errors);
+		    validateExpectedAttributeForLine(massRequest.getMassLines().get(0),linesAttrs,errors);
+		    if(!errors.isEmpty())
+		    	return;
+		    addValuesToLine(massRequest.getMassHeader(),headerAttrs,headerValues);
+		    addValuesToLine(massRequest.getMassDetails(),detailsAttrs,detailsValues);
+		    int lineIndex = 0;
+		    for(int i=0 ;i<lines.length;i++)
+		    {
+		    	String[] lineValues = lines[i].split(",");
+		    	addValuesToLine(massRequest.getMassLines().get(lineIndex), linesAttrs, lineValues);
+		    	lineIndex++;
+		    	if(i!=lines.length-1)
+		    	{
+		    		massRequest.getMassLines().add(new MassRequestLine());
+		    		massRequest.getMassLines().get(lineIndex).setAttributes(massRequest.getMassLines().get(0).getAttributes());
+		    		massRequest.getMassLines().get(lineIndex).setExceptedAttribute(massRequest.getMassLines().get(0).getExceptedAttribute());
+		    	}
+		    }
+		    
+		}catch(Exception e)
+		{
+			errors.add(e.getMessage());
+			return;
+		}
+	    
+	    
+	}
+
+	
+
+	private static void validateExpectedAttributeForLine(MassLine line, String[] recievedAttrs,List<String> errors) {
+		List<String> recievedAttrsList = Arrays.asList(recievedAttrs);
+		List<String> exceptedAttributes = line.getExceptedAttribute();
+		for(String attr: exceptedAttributes)
+		{
+			if(!recievedAttrsList.contains(attr))
+			{
+				errors.add("Missing Excepted Attrbite! Attribute: "+attr+ " is missing in section: "+ line.getLineName());
+			}
+		}
+		for(String attr : recievedAttrs)
+		{
+			if(!attr.trim().isEmpty() && !exceptedAttributes.contains(attr))
+			{
+				errors.add("Attrbite Is Not Excepted! Attribute: "+attr+ " should not be in section: "+ line.getLineName());
+			}
+		}
+		
+	}
+	
+	private static void addValuesToLine(MassLine line, String[] lineAttrs, String[] lineValues) {
+		HashMap<String,String> nameValuePairs = new HashMap<String,String>();
+		for(int i=0;i<lineAttrs.length;i++)
+		{
+			if(!lineAttrs[i].trim().isEmpty())
+				nameValuePairs.put(lineAttrs[i], lineValues[i] != null? lineValues[i].trim():null );
+		}
+		for(Attribute attr : line.getAttributes())
+		{
+			attr.setValue(nameValuePairs.get(attr.getName()));
+		}
 	}
 	
 //	private static boolean validateMassRequest(String[] textAsArray) {
