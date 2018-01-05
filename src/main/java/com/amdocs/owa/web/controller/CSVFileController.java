@@ -38,7 +38,7 @@ public class CSVFileController {
     	List<String> errorsHolder = new ArrayList<String>();
     	MassRequest inputFile = MassUtils.buildMassRequestFromFile(file,errorsHolder);
 		model.addAttribute("inputFile" , inputFile);
-
+		model.addAttribute("errors" , errorsHolder);
         return "csv/validate";
     }
     
@@ -56,8 +56,12 @@ public class CSVFileController {
     
     @PostMapping("new-validation-file")
     public String newValidationFile(@RequestParam(value = "file",required=true) MultipartFile file, Model model,RedirectAttributes redirectAttributes) {
-    	String requestType = MassUtils.createNewValidationFile(file);
-        return editValidationFile(requestType, model);
+    	MassRequest validationFile = MassUtils.createNewValidationFile(file);
+    	model.addAttribute("validationFile", validationFile);
+    	model.addAttribute("validAttributeTypes", validAttributeTypes.clone());
+    	model.addAttribute("validationOptions", validationOptions.clone());
+    	model.addAttribute("validValidationTypes", validValidationTypes.clone());
+        return "csv/validation-file-edit";
     }
     
     @PostMapping("edit-validation-file")

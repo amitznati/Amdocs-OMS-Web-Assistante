@@ -24,10 +24,16 @@ function Validation(name,value){
 
 }
 
-function Component(){
+function Component(comp){
     var self = this;
     self.cid = ko.observable();
     self.attributes = ko.observableArray();
+    if(comp){
+        self.cid(comp.cid);
+        comp.attributes.forEach(function(attr){
+            self.attributes.push(new Attribute(attr.name,attr.value))
+        });
+    }
     self.addAttribute = function(){
         self.attributes.push(new Attribute());
     }
@@ -62,6 +68,8 @@ function MassValidationLine(line){
     self.lineName = ko.observable();
     self.attributes = ko.observableArray();
     self.isLineVisible = ko.observable(false);
+    self.exceptedAttribute = line.exceptedAttribute;
+    self.attributesList = ko.observableArray();
     self.showLine = function(){
         self.isLineVisible(!self.isLineVisible());
     }
@@ -76,6 +84,12 @@ function MassValidationLine(line){
         line.attributes.forEach(function(attr){
             self.attributes.push(new Attribute(attr.name,attr.value,attr.type,attr.validations));
         })
+        if(line.attributesList)
+        {
+            line.attributesList.forEach(function(comp){
+                self.attributesList.push(new Component(comp));
+            })
+        }
         self.lineName(line.lineName);
     }
 }
@@ -84,7 +98,6 @@ function ValidationFile(validationFile){
     var self = this;
     self.massHeader = ko.observable(new MassValidationLine(validationFile.massHeader));
     self.massDetails = ko.observable(new MassValidationLine(validationFile.massDetails));
-
     self.massLines = ko.observableArray();
     validationFile.massLines.forEach(function(line){
         self.massLines.push(new MassValidationLine(line));
@@ -105,11 +118,11 @@ function MassRequest(){
     self.isDetailsVisible = ko.observable(false);
     
 
-    self.showHeader = function(){console.log('show header'); self.isHeaderVisible(!self.isHeaderVisible());}
+    self.showHeader = function(){ self.isHeaderVisible(!self.isHeaderVisible());}
 
     self.showDetails = function(){self.isDetailsVisible(!self.isDetailsVisible());}
 
-    self.deleteLine = function(line){console.log('delete line: '+line); self.lines.remove(line);}
+    self.deleteLine = function(line){self.lines.remove(line);}
 
     self.addLine = function(){
         var attrs = [];

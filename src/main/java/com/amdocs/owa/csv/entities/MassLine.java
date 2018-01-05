@@ -32,7 +32,16 @@ public class MassLine {
 	}
 
 	public void setExceptedAttribute(List<String> expectedAttribute) {
-		this.exceptedAttribute = expectedAttribute;
+		this.exceptedAttribute = new ArrayList<String>();
+		if(expectedAttribute == null)
+			this.exceptedAttribute = expectedAttribute;
+		else
+		{
+			for(String s : expectedAttribute)
+			{
+				this.exceptedAttribute.add(s.trim());
+			}
+		}
 	}
 
 	

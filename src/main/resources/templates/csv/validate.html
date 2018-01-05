@@ -20,6 +20,13 @@
         </ol>
     </section>
     <div layout:fragment="content">
+        <div class="row" >
+            <div class="col-xs-12">
+                <ul style="color: red" data-bind="foreach: {data: errors, as: 'error'}">
+                    <li data-bind="text: error"></li>
+                </ul>
+            </div>
+        </div>
         <div class="row"> 
             <div class="col-xs-12">
                 <div class="box box-primary">
@@ -97,6 +104,7 @@
         function ViewModel() {
             var self = this;
             self.massRequest = ko.observable(new ValidationFile(inputFile));
+            self.errors = errors;
             console.log(self.massRequest());
 
            

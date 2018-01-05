@@ -217,7 +217,7 @@ public class MassUtils {
 		
 	}
 
-	public static String createNewValidationFile(MultipartFile file) {
+	public static MassRequest createNewValidationFile(MultipartFile file) {
 		String text = getFileAsString(file);
 		String requestType = getRequestTypeFromInputFile(text);
 		if(requestType == null)
@@ -235,19 +235,17 @@ public class MassUtils {
 	    massRequest.getMassLines().add(new MassRequestLine());
 	    createNewLine(massRequest.getMassLines().get(0), linesAttrs);
 
-	    Gson g = new Gson();
-	    String jsonInString = g.toJson(massRequest);
-	    saveValidationFileFromJsonString(jsonInString);
-		return requestType;
+		return massRequest;
 	}
 
 	private static void createNewLine(MassLine line, String[] headerAttrs) {
 		for(String attrName : headerAttrs)
 	    {
-			if(attrName != null && !attrName.trim().isEmpty())
+			String realName = attrName != null ? attrName.trim() : null;
+			if(!realName.isEmpty())
 			{
-				line.getExceptedAttribute().add(attrName);
-		    	Attribute attr = new Attribute(attrName,null);
+				line.getExceptedAttribute().add(realName);
+		    	Attribute attr = new Attribute(realName,null);
 		    	attr.setType("text");
 		    	line.getAttributes().add(attr);
 			}
@@ -313,18 +311,22 @@ public class MassUtils {
 	
 
 	private static void validateExpectedAttributeForLine(MassLine line, String[] recievedAttrs,List<String> errors) {
-		List<String> recievedAttrsList = Arrays.asList(recievedAttrs);
+		List<String> recievedAttrsList = new ArrayList<String>();
+		for(String attr : recievedAttrs)
+		{
+			recievedAttrsList.add(attr.trim());
+		}
 		List<String> exceptedAttributes = line.getExceptedAttribute();
 		for(String attr: exceptedAttributes)
 		{
-			if(!recievedAttrsList.contains(attr))
+			if(!recievedAttrsList.contains(attr.trim()))
 			{
 				errors.add("Missing Excepted Attrbite! Attribute: "+attr+ " is missing in section: "+ line.getLineName());
 			}
 		}
 		for(String attr : recievedAttrs)
 		{
-			if(!attr.trim().isEmpty() && !exceptedAttributes.contains(attr))
+			if(!attr.trim().isEmpty() && !exceptedAttributes.contains(attr.trim()))
 			{
 				errors.add("Attrbite Is Not Excepted! Attribute: "+attr+ " should not be in section: "+ line.getLineName());
 			}
@@ -341,8 +343,40 @@ public class MassUtils {
 		}
 		for(Attribute attr : line.getAttributes())
 		{
+			if("AttributesList".equals(attr.getName()))
+			{
+					((MassRequestLine)line).setAttributesList(parsAttributeList(nameValuePairs.get(attr.getName())));
+			}
 			attr.setValue(nameValuePairs.get(attr.getName()));
 		}
+	}
+
+	private static List<Component> parsAttributeList(String attrList) {
+		List<Component> retList = new ArrayList<Component>();
+		if(attrList == null || attrList.trim().isEmpty()) 
+			return retList;
+	    String[] componentArr = new String[]{attrList};
+	    if(attrList.contains(";"))
+	        componentArr = attrList.split(";");
+	    for(String comp : componentArr){
+	        if(comp != null && !comp.trim().isEmpty()){
+	            Component component  = new Component();
+	            String[] compAttrList = comp.split("\\|\\|");
+	            component.setCid(compAttrList[0]);
+	            for(int j=1;j<compAttrList.length;j++){
+	                String[] attrAndVal = compAttrList[j].split("=");
+	                Attribute attribute = new Attribute();
+	                attribute.setName(attrAndVal[0]);
+	                attribute.setValue(attrAndVal[1]);
+	                component.getAttributes().add(attribute);
+	            }
+	    
+	            retList.add(component);
+	        }
+	        
+	        
+	    }
+	    return retList;
 	}
 	
 //	private static boolean validateMassRequest(String[] textAsArray) {

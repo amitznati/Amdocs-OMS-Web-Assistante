@@ -1,169 +1,211 @@
 {
-	"massDetails": {
-		"attributes": [{
-			"name": "SRD",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Sales Channel",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Reason",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Dealer Code",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Dealer Referral Code",
-			"type": "text",
-			"validations": []
-		}],
-		"lineName": "Mass Details",
-		"exceptedAttribute": ["SRD",
-		"Sales Channel",
-		"Reason",
-		"Dealer Code",
-		"Dealer Referral Code"]
-	},
-	"massHeader": {
-		"attributes": [{
-			"name": "External Mass Request ID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Mass Request Type",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Request Description",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Request Execution Date",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Request Creator",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Request Creation Date",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Number Of Request Lines",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Date Format",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Sync Group Name",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Number Of Mass Sync Files",
-			"type": "text",
-			"validations": []
-		}],
-		"lineName": "Mass Header",
-		"exceptedAttribute": ["External Mass Request ID",
-		"Mass Request Type",
-		"Request Description",
-		"Request Execution Date",
-		"Request Creator",
-		"Request Creation Date",
-		"Number Of Request Lines",
-		"Date Format",
-		"Sync Group Name",
-		"Number Of Mass Sync Files"]
-	},
-	"massLines": [{
-		"lineNumber": 0,
-		"attributes": [{
-			"name": "Request Line Number",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "External Line ID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Product Identifier",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Identifier Type",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Target Customer ID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Target Contact ID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "Target PCN ID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "TargetRootCustomerID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "EligibilityForInverseTaxation",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "ContractID",
-			"type": "text",
-			"validations": []
-		},
-		{
-			"name": "IsToTransferUnInvoicedCharges",
-			"type": "text",
-			"validations": []
-		}],
-		"lineName": "Mass Line",
-		"exceptedAttribute": ["Request Line Number",
-		"External Line ID",
-		"Product Identifier",
-		"Identifier Type",
-		"Target Customer ID",
-		"Target Contact ID",
-		"Target PCN ID",
-		"TargetRootCustomerID",
-		"EligibilityForInverseTaxation",
-		"ContractID",
-		"IsToTransferUnInvoicedCharges"]
-	}],
-	"requestType": "ChangeOwnership"
+  "massHeader": {
+    "lineName": "Mass Header",
+    "attributes": [
+      {
+        "name": "External Mass Request ID",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Mass Request Type",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Description",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Execution Date",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Creator",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Request Creation Date",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Number Of Request Lines",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Date Format",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Sync Group Name",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Number Of Mass Sync Files",
+        "value": null,
+        "type": "text",
+        "validations": []
+      }
+    ],
+    "isLineVisible": false,
+    "exceptedAttribute": [
+      "External Mass Request ID",
+      "Mass Request Type",
+      "Request Description",
+      "Request Execution Date",
+      "Request Creator",
+      "Request Creation Date",
+      "Number Of Request Lines",
+      "Date Format",
+      "Sync Group Name",
+      "Number Of Mass Sync Files"
+    ]
+  },
+  "massDetails": {
+    "lineName": "Mass Details",
+    "attributes": [
+      {
+        "name": "SRD",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Sales Channel",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Reason",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Dealer Code",
+        "value": null,
+        "type": "text",
+        "validations": []
+      },
+      {
+        "name": "Dealer Referral Code",
+        "value": null,
+        "type": "text",
+        "validations": []
+      }
+    ],
+    "isLineVisible": false,
+    "exceptedAttribute": [
+      "SRD",
+      "Sales Channel",
+      "Reason",
+      "Dealer Code",
+      "Dealer Referral Code"
+    ]
+  },
+  "massLines": [
+    {
+      "lineName": "Mass Line",
+      "attributes": [
+        {
+          "name": "Request Line Number",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "External Line ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Product Identifier",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Identifier Type",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target Customer ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target Contact ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "Target PCN ID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "TargetRootCustomerID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "EligibilityForInverseTaxation",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "ContractID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "IsToTransferUnInvoicedCharges",
+          "value": null,
+          "type": "text",
+          "validations": []
+        }
+      ],
+      "isLineVisible": false,
+      "exceptedAttribute": [
+        "Request Line Number",
+        "External Line ID",
+        "Product Identifier",
+        "Identifier Type",
+        "Target Customer ID",
+        "Target Contact ID",
+        "Target PCN ID",
+        "TargetRootCustomerID",
+        "EligibilityForInverseTaxation",
+        "ContractID",
+        "IsToTransferUnInvoicedCharges"
+      ]
+    }
+  ],
+  "requestType": "ChangeOwnership"
 }

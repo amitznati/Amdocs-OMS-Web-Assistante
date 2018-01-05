@@ -1,5 +1,6 @@
 {
   "massHeader": {
+    "lineName": "Mass Header",
     "attributes": [
       {
         "name": "External Mass Request ID",
@@ -7,12 +8,11 @@
         "type": "text",
         "validations": [
           {
-            "name": "required",
-            "value": "true"
+            "name": "required"
           },
           {
             "name": "type",
-            "value": "integer"
+            "value": "digits"
           }
         ]
       },
@@ -20,7 +20,11 @@
         "name": "Mass Request Type",
         "value": null,
         "type": "text",
-        "validations": []
+        "validations": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "Request Description",
@@ -38,18 +42,17 @@
         "name": "Request Creator",
         "value": null,
         "type": "text",
-        "validations": [
-          {
-            "name": "required",
-            "value": "true"
-          }
-        ]
+        "validations": []
       },
       {
         "name": "Request Creation Date",
         "value": null,
         "type": "date",
-        "validations": []
+        "validations": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "Number Of Request Lines",
@@ -57,8 +60,11 @@
         "type": "text",
         "validations": [
           {
+            "name": "required"
+          },
+          {
             "name": "type",
-            "value": "integer"
+            "value": "digits"
           }
         ]
       },
@@ -68,8 +74,7 @@
         "type": "text",
         "validations": [
           {
-            "name": "required",
-            "value": "dd/MM/yyyy"
+            "name": "required"
           }
         ]
       },
@@ -80,32 +85,48 @@
         "validations": []
       },
       {
-        "name": "Number Of Mass Sync Files\r",
+        "name": "Number Of Mass Sync Files",
         "value": null,
         "type": "text",
-        "validations": [
-          {
-            "name": "type",
-            "value": "integer"
-          }
-        ]
+        "validations": []
       }
     ],
-    "isLineVisible": true
+    "isLineVisible": true,
+    "exceptedAttribute": [
+      "External Mass Request ID",
+      "Mass Request Type",
+      "Request Description",
+      "Request Execution Date",
+      "Request Creator",
+      "Request Creation Date",
+      "Number Of Request Lines",
+      "Date Format",
+      "Sync Group Name",
+      "Number Of Mass Sync Files"
+    ]
   },
   "massDetails": {
+    "lineName": "Mass Details",
     "attributes": [
       {
         "name": "SRD",
         "value": null,
         "type": "date",
-        "validations": []
+        "validations": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "SalesChannel",
         "value": null,
         "type": "text",
-        "validations": []
+        "validations": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "Reason",
@@ -113,12 +134,11 @@
         "type": "text",
         "validations": [
           {
-            "name": "maxlength",
-            "value": "10"
+            "name": "required"
           },
           {
-            "name": "required",
-            "value": "true"
+            "name": "maxlength",
+            "value": "10"
           }
         ]
       },
@@ -140,12 +160,7 @@
         "type": "text",
         "validations": [
           {
-            "name": "maxlength",
-            "value": "10"
-          },
-          {
-            "name": "required",
-            "value": "true"
+            "name": "required"
           }
         ]
       },
@@ -155,12 +170,7 @@
         "type": "text",
         "validations": [
           {
-            "name": "maxlength",
-            "value": "10"
-          },
-          {
-            "name": "required",
-            "value": "true"
+            "name": "required"
           }
         ]
       },
@@ -171,7 +181,7 @@
         "validations": [
           {
             "name": "type",
-            "value": "integer"
+            "value": "digits"
           }
         ]
       },
@@ -191,26 +201,186 @@
         "name": "RecipientPhone",
         "value": null,
         "type": "text",
-        "validations": []
+        "validations": [
+          {
+            "name": "type",
+            "value": "digits"
+          }
+        ]
       },
       {
         "name": "ShippingInstructions",
         "value": null,
         "type": "text",
         "validations": []
-      },
-      {
-        "name": "FullPortIn\r",
-        "value": null,
-        "type": "text",
-        "validations": []
       }
     ],
-    "isLineVisible": false
+    "isLineVisible": true,
+    "exceptedAttribute": [
+      "SRD",
+      "SalesChannel",
+      "Reason",
+      "AddComponentOrOffer",
+      "RemoveComponentOrOffer",
+      "DealerCode",
+      "DealerReferralCode",
+      "ShippingAddressID",
+      "RecipientFirstName",
+      "RecipientLastName",
+      "RecipientPhone",
+      "ShippingInstructions"
+    ]
   },
-  "massLine": {
-    "attributes": [],
-    "isLineVisible": false
-  },
+  "massLines": [
+    {
+      "lineName": "Mass Line",
+      "attributes": [
+        {
+          "name": "RequestLineNumber",
+          "value": null,
+          "type": "text",
+          "validations": [
+            {
+              "name": "required"
+            },
+            {
+              "name": "type",
+              "value": "digits"
+            }
+          ]
+        },
+        {
+          "name": "ExternalLineID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "ProductIdentifier",
+          "value": null,
+          "type": "text",
+          "validations": [
+            {
+              "name": "required"
+            },
+            {
+              "name": "type",
+              "value": "digits"
+            }
+          ]
+        },
+        {
+          "name": "IdentifierType",
+          "value": null,
+          "type": "text",
+          "validations": [
+            {
+              "name": "required"
+            }
+          ]
+        },
+        {
+          "name": "AttributesList",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "pcnID",
+          "value": null,
+          "type": "text",
+          "validations": [
+            {
+              "name": "required"
+            }
+          ]
+        },
+        {
+          "name": "MainPromotionID",
+          "value": null,
+          "type": "text",
+          "validations": [
+            {
+              "name": "type",
+              "value": "digits"
+            }
+          ]
+        },
+        {
+          "name": "AdditionalPromotionID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "PromoActionType",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "RemoveInstanceID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "PromotionAttributes",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "EligibilityForInverseTaxation",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "ContractID",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "PromotionActivationData",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "LineAddComponentOrOffer",
+          "value": null,
+          "type": "text",
+          "validations": []
+        },
+        {
+          "name": "LineRemoveComponentOrOffer",
+          "value": null,
+          "type": "text",
+          "validations": []
+        }
+      ],
+      "isLineVisible": true,
+      "exceptedAttribute": [
+        "RequestLineNumber",
+        "ExternalLineID",
+        "ProductIdentifier",
+        "IdentifierType",
+        "AttributesList",
+        "pcnID",
+        "MainPromotionID",
+        "AdditionalPromotionID",
+        "PromoActionType",
+        "RemoveInstanceID",
+        "PromotionAttributes",
+        "EligibilityForInverseTaxation",
+        "ContractID",
+        "PromotionActivationData",
+        "LineAddComponentOrOffer",
+        "LineRemoveComponentOrOffer"
+      ]
+    }
+  ],
   "requestType": "ChangeConfiguration"
 }
