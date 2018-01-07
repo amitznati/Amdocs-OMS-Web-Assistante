@@ -70,6 +70,7 @@ function MassValidationLine(line){
     self.isLineVisible = ko.observable(false);
     self.exceptedAttribute = line.exceptedAttribute;
     self.attributesList = ko.observableArray();
+    self.isAttributeListExist = ko.observable(false);
     self.showLine = function(){
         self.isLineVisible(!self.isLineVisible());
     }
@@ -80,12 +81,20 @@ function MassValidationLine(line){
     self.addAttribute = function(){
         self.attributes.push(new Attribute());
     }
+    self.addComp = function(){
+        self.attributesList.push(new Component());
+    }
+
+    self.deleteComponent = function(comp){
+        self.attributesList.remove(comp);
+    }
     if(line){
         line.attributes.forEach(function(attr){
             self.attributes.push(new Attribute(attr.name,attr.value,attr.type,attr.validations));
         })
         if(line.attributesList)
         {
+            self.isAttributeListExist(true);
             line.attributesList.forEach(function(comp){
                 self.attributesList.push(new Component(comp));
             })
@@ -103,6 +112,25 @@ function ValidationFile(validationFile){
         self.massLines.push(new MassValidationLine(line));
     })
     self.requestType = validationFile.requestType;
+
+    self.addLine = function(){
+        var newLine = JSON.parse(JSON.stringify(self.massLines[0]));;
+        
+        // self.linesAttributesString().split(',').forEach(function(attrName){
+        //     var val = "";
+        //     if(attrName == 'Request Line Number' || attrName == 'RequestLineNumber' ){
+        //         newLine.lineNumber(self.lines().length+1);
+        //         val = self.lines().length+1;
+        //     }
+        //     newLine.attributes.push(new Attribute(attrName,val));
+        // });
+        // newLine.isVisible(true);
+        self.massLines.push(newLine);
+    };
+    self.deleteLine = function(line){
+        if(self.massLines().length > 1)
+            self.massLines.remove(line);
+    }
     
 }
 
