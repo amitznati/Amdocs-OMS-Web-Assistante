@@ -52,10 +52,10 @@
             </div>
         </div>
         <!-- <div data-bind="visible: isFileLoaded"> -->
-            <form id="demo-form" data-parsley-validate="">
+            <form data-bind="visible: isFormVisible" id="demo-form" data-parsley-validate="">
                 <div class="row">
                     <div class="col-md-12">
-                        <div data-bind="foreach: {data: [massRequest().massHeader(),massRequest().massDetails(),massRequest().massLines()], as: 'line'}">
+                        <div data-bind="foreach: {data: [massRequest().massHeader(),massRequest().massDetails()], as: 'line'}">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title"><i data-bind="{click: line.showLine, css: line.isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  <!--ko text: lineName--><!--/ko--></h3>
@@ -82,11 +82,11 @@
                     </div>
                 </div> -->
                 <!-- Lines section -->
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-md-12">                 
                         <div th:replace="/csv/inc/mass_lines"></div>
                     </div>
-                </div> -->
+                </div>
                 <!--End Lines Sections -->
                 <div class="row"> 
                     <div class="col-xs-6">
@@ -123,16 +123,14 @@
             var self = this;
             self.massRequest = ko.observable(new ValidationFile(inputFile));
             self.errors = errors;
+            self.isFormVisible = ko.observable(errors ? false : true);
             console.log(self.massRequest());
 
-           
-            
-            
-            
-            
-            
-
             self.exportFile = function(){
+                if(!$('#demo-form').parsley().validate()){
+                    alert('Validation Failed!')
+                    return;
+                }
                 console.log('exportFile');
                 var rows = self.massRequest().getAllRows();
 
@@ -148,95 +146,15 @@
 
                 link.click(); // This will download the data file named "my_data.csv".
             };
-
-            // self.openFile = function(data, event) {
-            //     var input = event.target;
-            //     var reader = new FileReader();
-            //     self.massRequest(new MassRequest());
-            //     reader.onload = function(){
-            //         var text = reader.result.trim();
-            //         //console.log(text);
-            //         self.isFileLoaded(true);
-            //         var tempMassReq = getMassRequestFromText(text);
-            //         addTypeToAttributes(tempMassReq,self.validationFile())
-                    
-            //         self.massRequest(tempMassReq);
-
-            //         addValidation(self.validationFile());
-            //         $('#demo-form').parsley().validate();
-                     
-                    
-            //     };
-            //     reader.readAsText(input.files[0]);
-            // };
         };
 
         var myViewModel = new ViewModel();
 
         ko.applyBindings(myViewModel);
         var dateFields = [];
-        addValidationToLine = function(line){
-            line.attributes().forEach(function(attr){
-                var field = $("input[name='"+ attr.name() + "']");
-                if(attr.type() == 'date')
-                {
-                    field.attr('type','text');
-                    field.attr('data-parsley-mindate', "");
-                    field.datepicker({
-                        format: "dd/mm/yyyy",
-                    });
-                    field.val(attr.value());
-                }
-                else if(attr.type() == 'cid_list')
-                {
-
-                    field.attr('type','text');
-                    field.attr('data-parsley-pattern','([0-9]+;?)*');
-                }
-                else if(attr.type() == 'cid')
-                {
-
-                    field.attr('type','text');
-                    field.attr('data-parsley-pattern','^([0-9]+)$');
-                }
-
-                else if(attr.type() == 'attributes_list')
-                {
-
-                    field.attr('type','text');
-                    field.attr('data-parsley-attributeslist','');
-                    
-                }
-
-                attr.validations().forEach(function(validation){
-                    $("input[name='"+ attr.name() + "']").attr('data-parsley-'+validation.name(), validation.value());
-                })
-                field.on('change',function(){$(this).parsley().validate();});
-            })
-        }
         // var stringMethod =new Function('value',"var date = value.split('/');var newDate = new Date(Date.parse(date[2]+ ' '+ date[1]+ ' ' + date[0]));var now = new Date();now.setHours(12,0,0,0);newDate.setHours(12,0,0,0);return newDate >= now;");
 
-        validateAttributesList = function(attrList){
-            if(!attrList) return true;
-            var retVal = true;
-            var componentArr = [attrList];
-            if(attrList.includes(';'))
-                componentArr = attrList.split(';');
-            componentArr.forEach(function(comp){
-                if(comp && comp.trim()){
-                    var compAttrList = comp.split('||');
-                    if(compAttrList[0].match('[0-9]+')[0] != compAttrList[0]) {
-                        retVal = false;
-                    }
-                    for(j=1;j<compAttrList.length;j++){
-                        var attrAndVal = compAttrList[j].split('=');
-                        if(!attrAndVal[0] || !attrAndVal[1] || !attrAndVal[0].trim() || !attrAndVal[1].trim())
-                            retVal = false;
-                    }
-                }
-            })
-            return retVal;
-        }
+        
         $(document).ready(function(){
          //   $('#demo-form').parsley();
             window.Parsley.addValidator('mindate', {

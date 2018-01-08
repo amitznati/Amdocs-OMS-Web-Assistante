@@ -116,3 +116,85 @@ function getMassRequestFromText(text){
     return massRequest;
 
 }
+
+addValidationToLine = function(line){
+    line.attributes().forEach(function(attr){
+        var field = $("input[name='"+ attr.name() + "']");
+        if(attr.type() == 'date')
+        {
+            field.attr('type','text');
+            field.attr('data-parsley-mindate', "");
+            field.datepicker({
+                format: "dd/mm/yyyy",
+                todayBtn: "linked"
+            });
+            field.val(attr.value());
+        }
+        else if(attr.type() == 'cid_list')
+        {
+
+            field.attr('type','text');
+            field.attr('data-parsley-pattern','([0-9]+;?)*');
+        }
+        else if(attr.type() == 'cid')
+        {
+
+            field.attr('type','text');
+            field.attr('data-parsley-pattern','^([0-9]+)$');
+        }
+
+        else if(attr.type() == 'attributes_list')
+        {
+
+            field.attr('type','text');
+            field.attr('data-parsley-attributeslist','');
+            
+        }
+
+        attr.validations().forEach(function(validation){
+            $("input[name='"+ attr.name() + "']").attr('data-parsley-'+validation.name(), validation.value());
+        })
+        field.on('change',function(){$(this).parsley().validate();});
+    })
+}
+
+validateAttributesList = function(attrList){
+    if(!attrList) return true;
+    var retVal = true;
+    var componentArr = [attrList];
+    if(attrList.includes(';'))
+        componentArr = attrList.split(';');
+    componentArr.forEach(function(comp){
+        if(comp && comp.trim()){
+            var compAttrList = comp.split('||');
+            if(compAttrList[0].match('[0-9]+')[0] != compAttrList[0]) {
+                retVal = false;
+            }
+            for(j=1;j<compAttrList.length;j++){
+                var attrAndVal = compAttrList[j].split('=');
+                if(!attrAndVal[0] || !attrAndVal[1] || !attrAndVal[0].trim() || !attrAndVal[1].trim())
+                    retVal = false;
+            }
+        }
+    })
+    return retVal;
+}
+
+parseLineValuesToString = function(line,isValues)
+{
+    var tempStrAttrs = '';
+    line.attributes().forEach(function(attr){
+        var val = '';
+        if(isValues){
+            if(attr.name() == 'AttributesList')
+                val = parsToStringAttributesList(line.attributesList());
+            else
+                val = attr.value();
+        }
+        else
+            val = attr.name();
+        tempStrAttrs += val + ',';
+    });
+    tempStrAttrs += '\r';
+    return tempStrAttrs;
+}

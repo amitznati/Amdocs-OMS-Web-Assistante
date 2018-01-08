@@ -34,11 +34,16 @@ function Component(comp){
             self.attributes.push(new Attribute(attr.name,attr.value))
         });
     }
+    else
+    {
+        self.attributes.push(new Attribute());
+    }
     self.addAttribute = function(){
         self.attributes.push(new Attribute());
     }
     self.deleteAttribute = function(attr){
-        self.attributes.remove(attr)
+        if(self.attributes().length != 1)
+            self.attributes.remove(attr)
     }
 }
 
@@ -66,9 +71,10 @@ function Line(attributes){
 function MassValidationLine(line){
     var self = this;
     self.lineName = ko.observable();
+    self.lineNumber = ko.observable();
     self.attributes = ko.observableArray();
     self.isLineVisible = ko.observable(false);
-    self.exceptedAttribute = line.exceptedAttribute;
+    self.exceptedAttribute = null;
     self.attributesList = ko.observableArray();
     self.isAttributeListExist = ko.observable(false);
     self.showLine = function(){
@@ -100,11 +106,14 @@ function MassValidationLine(line){
             })
         }
         self.lineName(line.lineName);
+        self.lineNumber(line.lineNumber);
+        self.exceptedAttribute = line.exceptedAttribute;
     }
 }
 
 function ValidationFile(validationFile){
     var self = this;
+
     self.massHeader = ko.observable(new MassValidationLine(validationFile.massHeader));
     self.massDetails = ko.observable(new MassValidationLine(validationFile.massDetails));
     self.massLines = ko.observableArray();
@@ -114,22 +123,48 @@ function ValidationFile(validationFile){
     self.requestType = validationFile.requestType;
 
     self.addLine = function(){
-        var newLine = JSON.parse(JSON.stringify(self.massLines[0]));;
-        
-        // self.linesAttributesString().split(',').forEach(function(attrName){
-        //     var val = "";
-        //     if(attrName == 'Request Line Number' || attrName == 'RequestLineNumber' ){
-        //         newLine.lineNumber(self.lines().length+1);
-        //         val = self.lines().length+1;
-        //     }
-        //     newLine.attributes.push(new Attribute(attrName,val));
-        // });
-        // newLine.isVisible(true);
-        self.massLines.push(newLine);
+        var line = new MassValidationLine();
+        var attributes = [];
+        var thiAttrs = self.massLines()[0].attributes();
+        thiAttrs.forEach(function(attr)
+        {
+            var newAttr = new Attribute(attr.name(),attr.value(),attr.type(),null);
+            if(attr.name() == 'RequestLineNumber')
+            {
+                newAttr.value(self.massLines().length+1)
+            }
+            if(attr.name() == 'AttributesList')
+            {
+                newAttr.value(null);
+            }
+            newAttr.validations(attr.validations())
+            attributes.push(newAttr);
+        });
+        line.attributes(attributes);
+        line.exceptedAttribute = self.massLines()[0].exceptedAttribute;
+        line.lineNumber(self.massLines().length+1);
+        line.lineName('Mass Lines');
+        line.isAttributeListExist(true);
+        self.massLines.push(line);
+        addValidationToLine(line);
     };
     self.deleteLine = function(line){
         if(self.massLines().length > 1)
             self.massLines.remove(line);
+    }
+
+    self.getAllRows = function(){
+        var allRows = [];
+        allRows.push(parseLineValuesToString(self.massHeader(),false));
+        allRows.push(parseLineValuesToString(self.massHeader(),true));
+        allRows.push(parseLineValuesToString(self.massDetails(),false));
+        allRows.push(parseLineValuesToString(self.massDetails(),true));
+        allRows.push(parseLineValuesToString(self.massLines()[0],false));
+        self.massLines().forEach(function(line){
+            allRows.push(parseLineValuesToString(line,true));
+        })
+
+        return allRows;
     }
     
 }

@@ -60,7 +60,7 @@ public class MassUtils {
 	        MassRequestLine retLine = new MassRequestLine();
 	        for(int i =0 ; i<linesAttrs.length;i++){
 	            if(linesAttrs[i] == "Request Line Number" || linesAttrs[i] == "RequestLineNumber"){
-	                retLine.setLineNumber(Integer.valueOf(lineValues[i]));
+	                retLine.setLineNumber(lineValues[i]);
 	                
 	            }
 	            retLine.getAttributes().add(new Attribute(linesAttrs[i],lineValues[i]));
@@ -205,15 +205,29 @@ public class MassUtils {
 	public static void saveValidationFileFromJsonString(String jsonString) {
 		Gson g = new Gson(); 
 		MassRequest p = g.fromJson(jsonString, MassRequest.class);
+		adjustMassRequestBeforeSave(p);
 		try {
 			FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/csv-tamplets/" + p.getRequestType()+".json");
-			fileWriter.write(jsonString);
+			fileWriter.write(g.toJson(p));
 			fileWriter.flush();
 			fileWriter.close();
 			//CSVInitializer.validationFilesMap.put(p.getRequestType(), getValidationFileByType(p.getRequestType()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	private static void adjustMassRequestBeforeSave(MassRequest p) {
+		saveExpectedAttributeForLine(p.getMassHeader());
+		saveExpectedAttributeForLine(p.getMassDetails());
+		saveExpectedAttributeForLine(p.getMassLines().get(0));
+	}
+
+	private static void saveExpectedAttributeForLine(MassLine line) {
+		line.setExceptedAttribute(new ArrayList<String>());
+		for(Attribute a : line.getAttributes())
+			line.getExceptedAttribute().add(a.getName());
 		
 	}
 
@@ -293,15 +307,13 @@ public class MassUtils {
 		    	lineIndex++;
 		    	if(i!=lines.length-1)
 		    	{
-		    		massRequest.getMassLines().add(new MassRequestLine());
-		    		massRequest.getMassLines().get(lineIndex).setAttributes(massRequest.getMassLines().get(0).getAttributes());
-		    		massRequest.getMassLines().get(lineIndex).setExceptedAttribute(massRequest.getMassLines().get(0).getExceptedAttribute());
+		    		massRequest.getMassLines().add(massRequest.getMassLines().get(0).cloneForNewLine());
 		    	}
 		    }
 		    
 		}catch(Exception e)
 		{
-			errors.add(e.getMessage());
+			errors.add(e.toString());
 			return;
 		}
 	    
@@ -339,7 +351,7 @@ public class MassUtils {
 		for(int i=0;i<lineAttrs.length;i++)
 		{
 			if(!lineAttrs[i].trim().isEmpty())
-				nameValuePairs.put(lineAttrs[i], lineValues[i] != null? lineValues[i].trim():null );
+				nameValuePairs.put(lineAttrs[i], lineValues[i].trim());
 		}
 		for(Attribute attr : line.getAttributes())
 		{
@@ -347,6 +359,8 @@ public class MassUtils {
 			{
 					((MassRequestLine)line).setAttributesList(parsAttributeList(nameValuePairs.get(attr.getName())));
 			}
+			else if("RequestLineNumber".equals(attr.getName()))
+				((MassRequestLine)line).setLineNumber(nameValuePairs.get(attr.getName()));
 			attr.setValue(nameValuePairs.get(attr.getName()));
 		}
 	}

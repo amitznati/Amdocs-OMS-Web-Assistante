@@ -38,7 +38,7 @@ public class CSVFileController {
     	List<String> errorsHolder = new ArrayList<String>();
     	MassRequest inputFile = MassUtils.buildMassRequestFromFile(file,errorsHolder);
 		model.addAttribute("inputFile" , inputFile);
-		model.addAttribute("errors" , errorsHolder);
+		model.addAttribute("errors" , errorsHolder.isEmpty() ? null : errorsHolder);
         return "csv/validate";
     }
     

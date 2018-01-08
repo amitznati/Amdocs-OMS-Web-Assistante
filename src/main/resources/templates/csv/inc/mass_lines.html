@@ -3,12 +3,12 @@
         <h3 class="box-title">Mass Lines</h3>
     </div>
     <div class="box-body">
-        <div data-bind="foreach: {data: massRequest().lines, as: 'line'} ">
+        <div data-bind="foreach: {data: massRequest().massLines, as: 'line'} ">
             <div>
                 <button class="btn btn-danger btn-xs" data-bind="click: $root.massRequest().deleteLine"><i class="fa fa-trash"></i></button>
-                <i data-bind="{click: showLine, css: isVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Line number <span data-bind="text: lineNumber"></span> 
+                <i data-bind="{click: showLine, css: isLineVisible() ? 'fa-minus-square' : 'fa-plus-square'}" class="fa fa-plus-square" aria-hidden="true"></i>  Line number <span data-bind="text: lineNumber"></span> 
             </div>
-            <div class="row" data-bind="visible: isVisible">
+            <div class="row" data-bind="visible: isLineVisible">
                 <div data-bind="foreach: attributes ">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -29,7 +29,7 @@
                                         <button class="btn btn-danger btn-xs" data-bind="click: line.deleteComponent"><i class="fa fa-trash"></i></button>
                                         <label class="control-label">Component/ Billing Offer CID</label>
 
-                                        <input class="form-control" data-bind="{value: cid}" >  
+                                        <input class="form-control" data-parsley-trigger="keyup" data-parsley-required data-parsley-type="digits" data-bind="{value: cid}" >  
                                     </div>                           
                                 </div>
                             </div>
@@ -41,13 +41,13 @@
                                             <div class="form-group">
                                                 <button class="btn btn-danger btn-xs" data-bind="click: comp.deleteAttribute"><i class="fa fa-trash"></i></button>
                                                 <label class="control-label" >Attribute Name </label>
-                                                <input class="form-control" data-bind="{value: name}" >
+                                                <input class="form-control" data-parsley-trigger="keyup" data-parsley-required data-bind="{value: name}" >
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label" >Attribute Value </label>
-                                                <input class="form-control" data-bind="{value: value,attr: {'type': type}}" >
+                                                <input class="form-control" type="text" data-parsley-trigger="keyup" data-parsley-required data-bind="{value: value}" >
                                             </div>
                                         </div>
                                     </div>

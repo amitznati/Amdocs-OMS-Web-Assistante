@@ -7,13 +7,13 @@ public class MassRequestLine extends MassLine {
 	public MassRequestLine(){setLineName("Mass Line");}
 	
 	private List<Component> attributesList = new ArrayList<Component>();
-	private int lineNumber;
+	private String lineNumber;
 	
-	public int getLineNumber() {
+	public String getLineNumber() {
 		return lineNumber;
 	}
 
-	public void setLineNumber(int lineNumber) {
+	public void setLineNumber(String lineNumber) {
 		this.lineNumber = lineNumber;
 	}
 
@@ -23,6 +23,25 @@ public class MassRequestLine extends MassLine {
 
 	public void setAttributesList(List<Component> attributeList) {
 		this.attributesList = attributeList;
+	}
+	
+	public MassRequestLine cloneForNewLine(){
+		MassRequestLine line = new MassRequestLine();
+		List<Attribute> attributes = new ArrayList<Attribute>();
+		List<Attribute> thiAttrs = this.getAttributes();
+		for(Attribute attr : thiAttrs)
+		{
+			Attribute newAttr = new Attribute();
+			newAttr.setName(attr.getName());
+			newAttr.setType(attr.getType());
+			newAttr.setValidations(attr.getValidations());
+			attributes.add(newAttr);
+		}
+		line.setAttributes(attributes);
+		line.setExceptedAttribute(this.getExceptedAttribute());
+		line.setLineName(this.getLineName());
+		
+		return line;
 	}
 
 }

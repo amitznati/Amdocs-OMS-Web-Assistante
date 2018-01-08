@@ -96,7 +96,7 @@
         "validations": []
       }
     ],
-    "isLineVisible": false,
+    "isLineVisible": true,
     "exceptedAttribute": [
       "External Mass Request ID",
       "Mass Request Type",
@@ -134,6 +134,10 @@
           {
             "name": "required",
             "value": null
+          },
+          {
+            "name": "maxlength",
+            "value": "2"
           }
         ]
       },
@@ -155,13 +159,13 @@
       {
         "name": "AddComponentOrOffer",
         "value": null,
-        "type": "text",
+        "type": "cid_list",
         "validations": []
       },
       {
         "name": "RemoveComponentOrOffer",
         "value": null,
-        "type": "text",
+        "type": "cid_list",
         "validations": []
       },
       {
@@ -227,7 +231,7 @@
         "validations": []
       }
     ],
-    "isLineVisible": false,
+    "isLineVisible": true,
     "exceptedAttribute": [
       "SRD",
       "SalesChannel",
@@ -248,6 +252,7 @@
   "massLines": [
     {
       "lineName": "Mass Line",
+      "lineNumber": null,
       "attributes": [
         {
           "name": "RequestLineNumber",
@@ -327,7 +332,7 @@
         {
           "name": "AdditionalPromotionID",
           "value": null,
-          "type": "text",
+          "type": "cid_list",
           "validations": []
         },
         {
@@ -358,7 +363,11 @@
           "name": "ContractID",
           "value": null,
           "type": "text",
-          "validations": []
+          "validations": [
+            {
+              "name": "required"
+            }
+          ]
         },
         {
           "name": "PromotionActivationData",
